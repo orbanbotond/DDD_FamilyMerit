@@ -1,0 +1,14 @@
+p Report of Balanaces.
+p= @balances.count
+table
+  th
+    td Name Of User
+    td Total Time Gained
+    td Total Time Consumed
+    td Balance
+  tr
+    - @balances.each do |balance|
+      td= balance.user_name
+      td= balance.total_time_gained
+      td= balance.total_time_consumed
+      td= balance.balance

@@ -1,0 +1,9 @@
+p Record Time Consume
+= form_with url: time_consumptions_path, method: :post do |form|
+  = form.label :account_id, "Account Account For User"
+  = form.collection_select :account_id, @accounts, :id, :name
+  = form.label :activity_id, "Activity"
+  = form.collection_select :activity_id, @activities, :id, :name
+  = form.label :minutes, "Minutes:"
+  = form.number_field :minutes
+  = form.submit "Consume"
