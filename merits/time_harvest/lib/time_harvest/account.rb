@@ -59,7 +59,6 @@ module TimeHarvest
       end
 
       on Events::AccountCreatedForUser do |event|
-      # on Events::AccountCreatedForUser do |event|
         @user_id = event.data[:user_id]
       end
   end
