@@ -8,14 +8,14 @@ PATH
       dry-types
       ruby_event_store
 
-PATH
-  remote: .
-  specs:
-    time_harvest (1.0.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
+    activemodel (7.0.4)
+      activesupport (= 7.0.4)
+    activerecord (7.0.4)
+      activemodel (= 7.0.4)
+      activesupport (= 7.0.4)
     activesupport (7.0.4)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
@@ -29,7 +29,7 @@ GEM
     coderay (1.1.3)
     concurrent-ruby (1.1.10)
     diff-lcs (1.5.0)
-    dry-container (0.10.1)
+    dry-container (0.11.0)
       concurrent-ruby (~> 1.0)
     dry-core (0.8.1)
       concurrent-ruby (~> 1.0)
@@ -105,6 +105,7 @@ PLATFORMS
   arm64-darwin-21
 
 DEPENDENCIES
+  activerecord
   aggregate_root (~> 2.5.1)
   dry-struct
   dry-types
@@ -113,7 +114,6 @@ DEPENDENCIES
   rspec
   rubocop-rails
   ruby_event_store (~> 2.5.1)
-  time_harvest!
 
 RUBY VERSION
    ruby 3.1.2p20

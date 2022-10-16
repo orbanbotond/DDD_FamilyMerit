@@ -29,6 +29,7 @@ module Infra
     def run(command)
       @command_bus.call(command)
     end
+    alias run_command run
 
     def link_event_to_stream(event, stream, expected_version = :any)
       @event_store.link(

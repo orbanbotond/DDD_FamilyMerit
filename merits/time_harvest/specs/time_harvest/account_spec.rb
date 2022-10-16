@@ -111,7 +111,8 @@ RSpec.describe TimeHarvest::Account do
       expect(account.unpublished_events.map(&:data)).to eq([
           TimeHarvest::Events::TimeGainedOnActivity.new(
             data: { activity_id: activity_id,
-				            minutes: minutes }
+				            minutes: minutes,
+				            account_id: account_id }
           )
         ].map(&:data))
     end

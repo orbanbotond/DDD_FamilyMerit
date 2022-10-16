@@ -8,6 +8,11 @@ PATH
       dry-types
       ruby_event_store
 
+PATH
+  remote: .
+  specs:
+    teams (1.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -108,6 +113,7 @@ DEPENDENCIES
   rspec
   rubocop-rails
   ruby_event_store (~> 2.5.1)
+  teams!
 
 RUBY VERSION
    ruby 3.1.2p20

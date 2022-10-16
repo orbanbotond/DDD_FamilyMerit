@@ -22,4 +22,16 @@ module TimeHarvest
       end
     end
   end
+
+  class TimeGainHandler
+    def initialize(event_store)
+      @repository = Infra::AggregateRootRepository.new(event_store)
+    end
+
+    def call(command)
+      @repository.with_aggregate(Account, command.account_id) do |account|
+        account.gain_time(command.minutes, command.activity_id)
+      end
+    end
+  end
 end

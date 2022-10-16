@@ -8,6 +8,7 @@ require_relative 'time_harvest/spent_time'
 require_relative 'time_harvest/account'
 require_relative 'time_harvest/time_harvest_service'
 require_relative 'time_harvest/commands/create_account'
+require_relative 'time_harvest/commands/gain_time'
 require_relative 'time_harvest/commands/consume_time'
 
 module TimeHarvest
@@ -15,6 +16,7 @@ module TimeHarvest
 		def call(cqrs)
 			cqrs.register_command(CreateAccount, CreateAccountHandler.new(cqrs.event_store), Events::AccountCreatedForUser)
 			cqrs.register_command(ConsumeTime, TimeConsumeHandler.new(cqrs.event_store), Events::TimeConsumedOnActivity)
+			cqrs.register_command(GainTime, TimeGainHandler.new(cqrs.event_store), Events::TimeGainedOnActivity)
 		end
 	end
 end

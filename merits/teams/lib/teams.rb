@@ -5,6 +5,7 @@ require_relative 'teams/events/team_created.rb'
 require_relative 'teams/formation'
 require_relative 'teams/teams_service'
 require_relative 'teams/commands/create_team'
+require_relative 'teams/commands/achieve_double_bronze'
 require_relative 'teams/events/team_created'
 
 module Teams

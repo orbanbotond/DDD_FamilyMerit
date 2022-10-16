@@ -30,7 +30,7 @@ module TimeHarvest
     def gain_time(minutes, activity_id)
       guard_against_invalid_params(minutes, activity_id)
 
-      apply Events::TimeGainedOnActivity.new(data: { minutes: minutes, activity_id: activity_id})
+      apply Events::TimeGainedOnActivity.new(data: { minutes: minutes, activity_id: activity_id, account_id: @account_id})
     end
 
     private

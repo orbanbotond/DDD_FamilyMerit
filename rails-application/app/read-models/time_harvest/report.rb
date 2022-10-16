@@ -21,7 +21,7 @@ module TimeHarvest
       end
 
       def link_to_stream(event)
-        @cqrs.link_event_to_stream(event, "ClientOrders$all")
+        @cqrs.link_event_to_stream(event, "Report$all")
       end
 
       def subscribe(handler, events)

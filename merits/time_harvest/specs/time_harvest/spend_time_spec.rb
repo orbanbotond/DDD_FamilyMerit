@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-RSpec.describe TimeHarvest::CreateAccount do
+RSpec.describe TimeHarvest::ConsumeTime do
   include TimeHarvest::TestPlumbing
 
   describe 'command is handled properly' do
@@ -11,7 +11,7 @@ RSpec.describe TimeHarvest::CreateAccount do
     let(:activity_id) { SecureRandom.hex(16) }
     let(:user_id) { SecureRandom.hex(16) }
 
-    it 'publishes the AccountCreated event' do
+    it 'publishes the TimeConsumed event' do
       run_command(TimeHarvest::CreateAccount.new(user_id: user_id, account_id: account_id))
 
       expect {
