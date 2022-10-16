@@ -57,13 +57,16 @@ module Processes
     end
 
     def store_team_info(event)
+      teams_repo = DataMapper::DatabaseConnection::new(DataMapper::DatabaseConnection.connection_options).teams_repo
+
     	team_name = event.data[:name]
     	event.data[:members].each do |member|
-    		# TeamMember.create team_name: team_name, user_id: member[:user_id], ratio: 0
+        teams_repo.create team_name: team_name, user_id: member[:user_id], ratio:0
     	end
     end
 
     def update_members(event)
+      # teams_repo.update(1, ratio:2)
     	# TeamMember.where(user_id: event.data[:user_id]).update_all(ratio: 2)
     end
 

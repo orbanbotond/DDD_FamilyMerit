@@ -1,1 +1,2 @@
 rails-application/tmp
+**/**/.env.*.local

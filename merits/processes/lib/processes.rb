@@ -11,6 +11,9 @@ require_relative 'commands/award_team'
 require_relative 'processes/team_achievement'
 require_relative 'processes/member_achievement'
 require_relative 'processes/processes_service'
+require_relative 'data_mapper/database_connection.rb'
+
+$processes_environment ||= ENV['ENVIRONMENT'] || :development
 
 module Processes
 	class Configuration

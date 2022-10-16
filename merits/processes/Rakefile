@@ -1,0 +1,15 @@
+
+require 'bundler/setup'
+Bundler.require(:development)
+
+require 'rom/sql/rake_task'
+require_relative 'lib/processes'
+
+namespace :db do
+  task :setup do
+    connection_uri = DataMapper::DatabaseConnection.connection_uri(DataMapper::DatabaseConnection.connection_options)
+
+    config = ROM::Configuration.new(:sql, connection_uri, {})
+    ROM::SQL::RakeSupport.env = ROM.container(config)
+  end
+end

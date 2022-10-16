@@ -5,12 +5,16 @@ ruby '3.1.2'
 
 gem 'aggregate_root', '~> 2.5.1'
 gem 'ruby_event_store', '~> 2.5.1'
-gem 'activerecord'
 gem 'dry-types'
 gem 'dry-struct'
 gem 'infra', path: '../../infra'
-# gem 'time_harvest', path: '../time_harvest'
-# gem 'teams', path: '../teams'
+
+gem 'rom-sql', '~> 3.2'
+gem 'pg'
+gem 'rake'
+gem 'rake'
+gem 'dotenv-rails'
+gem 'erb'
 
 group :development, :test do
 	gem 'pry-nav'
