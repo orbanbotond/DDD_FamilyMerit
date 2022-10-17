@@ -1,22 +1,31 @@
+ENV['ENVIRONMENT'] = 'test'
+
+require 'database_cleaner-sequel'
+require 'pry-nav'
 require_relative '../lib/processes'
 
 module Processes
   module TestPlumbing
     class FakeCommandBus
-      attr_reader :received, :all_received
+      attr_reader :last_received, :all_received
+
+      def initialize
+        @all_received = []
+      end
 
       def call(command)
-        @received = command
-        @all_received = @all_received ? @all_received << command : [command]
+        @last_received = command
+        @all_received << command
+      end
+
+      def register(command, handler)
       end
     end
 
     def self.included(klass)
       klass.include Infra::TestPlumbing
 
-      klass.send(:before, :each) do
-        @command_bus = FakeCommandBus.new
-      end
+      klass.send(:let, :command_bus) { FakeCommandBus.new }
 
       klass.send(:before, :each) do
         Configuration.new.call(cqrs)
@@ -30,17 +39,25 @@ module Processes
       extend RSpec::Matchers::DSL
 
       def expect_have_been_commanded(*expected_commands)
-        expect(@command_bus.received ).to eq(expected_commands)
+        expected_commands.all? do |expected_command|
+          expect(command_bus.all_received ).to include(expected_command)
+        end
       end
 
       def expect_nothing_have_been_commanded
-        expect(@command_bus.received ).to be_nil
+        expect(command_bus.all_received ).to be_empty
       end
 
       def account_created_for(user_id, account_id)
         TimeHarvest::Events::AccountCreatedForUser.new( data: {
           user_id: user_id,
           account_id: account_id
+        })
+      end
+
+      def member_awarded(user_id)
+        Gamification::Events::MemberAwarded.new( data: {
+          user_id: user_id,
         })
       end
 
@@ -66,18 +83,21 @@ module Processes
           members: user_ids.map{|id| { user_id: id } }
         })
       end
-
-      # def assert_command(command)
-      #   assert_equal(command_bus.received, command)
-      # end
-
-      # def assert_all_commands(*commands)
-      #   assert_equal(command_bus.all_received, commands)
-      # end
-
-      # def assert_no_command
-      #   assert_nil(command_bus.received)
-      # end
     end
+  end
+end
+
+
+DatabaseCleaner[:sequel].db = Sequel.connect(DataMapper::DatabaseConnection.connection_uri(DataMapper::DatabaseConnection.connection_options))
+
+RSpec.configure do |config|
+  config.before(:suite) do
+    DatabaseCleaner[:sequel].strategy = :truncation
+  end
+  config.before(:each) do
+    DatabaseCleaner[:sequel].start
+  end
+  config.after(:each) do
+    DatabaseCleaner[:sequel].clean
   end
 end

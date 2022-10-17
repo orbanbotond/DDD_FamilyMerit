@@ -6,7 +6,7 @@ ROM::SQL.migration do
       primary_key :id
       column :team_name, String, null: false
       column :user_id, String, null: false
-      column :ratio, String, null: false
+      column :ratio, BigDecimal, null: false
     end
   end
 end

@@ -1,18 +1,14 @@
 module Infra
   module TestPlumbing
     def self.included(klass)
-      klass.send(:before, :each) do
-        @command_bus = CommandBus.new
-        @event_store = EventStore.in_memory
-        @cqrs = Cqrs.new(@event_store, @command_bus)
-      end
+      klass.send(:let, :command_bus) { CommandBus.new }
+      klass.send(:let, :event_store) { EventStore.in_memory }
+      klass.send(:let, :cqrs) { Cqrs.new(event_store, command_bus) }
 
       include TestMethods
     end
 
     module TestMethods
-      attr_reader :event_store, :command_bus, :cqrs
-
       def arrange(*commands)
         commands.each { |command| act(command) }
       end

@@ -6,16 +6,16 @@ module Processes
 
     def call(event)
       state = build_user_state(event)
-      award_member(event, user) if state.credit_debit_ratio_is_reached?
+
+      award_member(event.data[:account_id]) if state.credit_debit_ratio_is_reached?
     end
 
     private
 
     attr_reader :cqrs
 
-    def award_member(event, user)
-    	puts "awarding"
-      cqrs.run_command(Gamification::AwardMember.new(user_id: event.data[:account_id]))
+    def award_member(user_id)
+      cqrs.run_command(Gamification::AwardMember.new(user_id: user_id))
     end
 
     def build_user_state(event)
@@ -53,12 +53,16 @@ module Processes
       end
 
       def ratio
-    		total_credits = @credits.sum
-    		total_debits = @debits.sum
-    		@ratio ||= total_credits.to_f / total_debits.to_f
+    		@ratio ||= @credits.sum.to_f / @debits.sum.to_f
+      end
+
+      def time_only_credited?
+        Float::INFINITY == ratio
       end
 
       def credit_debit_ratio_is_reached?
+        return false if time_only_credited?
+
 				ratio >= 2
       end
     end

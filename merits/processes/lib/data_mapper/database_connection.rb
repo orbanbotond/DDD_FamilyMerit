@@ -6,22 +6,6 @@ require 'erb'
 require_relative 'relations/team_member_info'
 require_relative 'repositories/teams_repository'
 
-# config->container
-# relation -> schema/commands
-# repository -> commands/query methods
-
-# postgresql_config.default.create_table(:employees) do
-#   primary_key :id
-#   # classification, :payment_method, :affiliation, :name, :address
-#   column :name, String, null: false
-#   column :address, String, null: false
-# end
-# postgresql_config.default.create_table(:schedules) do
-#   primary_key :id
-#   column :type, String, null: false
-#   column :employee_id, String, null: false
-# end
-
 module DataMapper
   class DatabaseConnection
     class << self
@@ -29,13 +13,6 @@ module DataMapper
         db_config_file_location = File.join __dir__, '..', '..', 'config', 'database.yml'
         erb = ERB.new( File.read( db_config_file_location))
         db_config = YAML.safe_load(erb.result(binding), aliases: true)
-        puts 'Env'
-        puts 'Env'
-        puts 'Env'
-        puts 'Env'
-        puts $processes_environment.to_s
-        puts $processes_environment.to_s
-        puts $processes_environment.to_s
         db_config[$processes_environment.to_s]
       end
 
