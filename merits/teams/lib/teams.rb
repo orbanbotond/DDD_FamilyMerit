@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'infra'
+require 'pry-nav'
 require_relative 'teams/events/team_created.rb'
 require_relative 'teams/formation'
 require_relative 'teams/teams_service'

@@ -17,7 +17,7 @@ RSpec.describe Teams::CreateTeam do
     it 'publishes the TeamCreated event' do
       expect {
         run_command(Teams::CreateTeam.new(team_data))
-      }.to publish_in_stream("Teams::Formation$#{team_name}", team_created)
+      }.to publish_in_stream("MyStream#{Teams::Formation},#{team_name}", team_created)
     end
   end
 end

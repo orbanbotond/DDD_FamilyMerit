@@ -1,6 +1,6 @@
 module Teams
   class Formation
-    include AggregateRoot
+    include MyAggregateRoot
 
     def initialize(name)
       @name = name
