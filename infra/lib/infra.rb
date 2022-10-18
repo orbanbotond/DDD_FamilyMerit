@@ -7,7 +7,6 @@ require "dry-struct"
 require "dry-types"
 
 require_relative "infra/my_aggregate_root"
-require_relative "infra/my_aggregate_root_repository"
 require_relative "infra/event"
 require_relative "infra/cqrs"
 require_relative "infra/command"

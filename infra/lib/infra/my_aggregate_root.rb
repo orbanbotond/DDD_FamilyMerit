@@ -18,22 +18,34 @@ module MyAggregateRoot
 
 	attr_accessor :version
 
-	def apply(event)
-		call_handler(event)
+	def initialize(aggregate_id, event_store, *args)
+		@aggregate_id = aggregate_id
+		@event_store = event_store
 
-		unpublished_events << event
+		setup_initial_state(*args) if respond_to?(:setup_initial_state)
+		reconstruct_from_event_stream
 	end
 
-	def call_handler(event)
-		block = self.class.event_handlers[event.class]
-		block.call(event)
+	def reconstruct_from_event_stream
+		events = @event_store.read.stream(event_stream_name)
+
+		events.each do |event|
+			aggregate.(event)
+		end
 	end
 
-	def unpublished_events
-		@unpublished_events ||= []
+	def event_stream_name
+		"#{self.class}-#{@aggregate_id}"
+	end
+
+	def publish(event)
+		self.(event)
+		@event_store.publish(event, stream_name: event_stream_name)
 	end
 
 	def call(event)
-		call_handler(event)
+		handler = self.class.event_handlers[event.class]
+		self.instance_exec event, &handler
+		binding.pry
 	end
 end
