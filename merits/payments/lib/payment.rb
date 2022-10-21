@@ -10,8 +10,8 @@ module Payments
     end
 
     def call(command)
-      @repository.with_aggregate(Card, command.id) do |order|
-        order.authorize(command)
+      @repository.with_aggregate(Card, command.id) do |card|
+        card.authorize(command)
       end
     end
   end
@@ -21,8 +21,8 @@ module Payments
     end
 
     def call(command)
-      @repository.with_aggregate(Card, command.id) do |order|
-        order.release(command)
+      @repository.with_aggregate(Card, command.id) do |card|
+        card.release(command)
       end
     end
   end
@@ -32,8 +32,8 @@ module Payments
     end
 
     def call(command)
-      @repository.with_aggregate(Card, command.id) do |order|
-        order.capture(command)
+      @repository.with_aggregate(Card, command.id) do |card|
+        card.capture(command)
       end
     end
   end

@@ -4,6 +4,8 @@ RSpec.describe Fullfillments::Order do
   include Fullfillments::TestPlumbing
 
   describe 'commands are handled properly' do
+    # let(:command_bus) { Infra::TestPlumbing::FakeCommandBus.new }
+
     let(:create) { Fullfillments::Orders::Commands::Create.new(id: id) }
     let(:id) { SecureRandom.uuid }
     let(:deliver) { Fullfillments::Orders::Commands::Deliver.new(id: id, should_fail: false, failure_reason: nil) }

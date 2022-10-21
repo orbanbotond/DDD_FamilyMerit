@@ -6,7 +6,7 @@ class Configuration
     # enable_res_infra_event_linking(cqrs)
 
     enable_domain(cqrs)
-    enable_time_harvest_read_model(cqrs)
+    enable_read_models(cqrs)
 
     # Ecommerce::Configuration.new(
     #   number_generator: Rails.configuration.number_generator,
@@ -30,9 +30,12 @@ class Configuration
 
   def enable_domain(cqrs)
     Merits::Configuration.new.call(cqrs)
+    Fullfillments::Configuration.new.call(cqrs)
+    Payments::Configuration.new.call(cqrs)
   end
 
-  def enable_time_harvest_read_model(cqrs)
+  def enable_read_models(cqrs)
     TimeHarvest::Report::Configuration.new.call(cqrs)
+    Fullfillment::Transaction::Configuration.new.call(cqrs)
   end
 end

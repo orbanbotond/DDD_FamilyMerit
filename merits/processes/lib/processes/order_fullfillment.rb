@@ -1,5 +1,5 @@
-module Fullfillment
-	class Process
+module Processes
+	class OrderFullfillment
     def initialize(cqrs)
       @cqrs = cqrs
     end
@@ -8,8 +8,6 @@ module Fullfillment
       case event
       when Fullfillments::Orders::Events::Created
         cqrs.run_command(Payments::Cards::Commands::Authorize.new( id: event.data[:id] ))          
-      when Payments::Cards::Events::Authorized
-        cqrs.run_command(Fullfillments::Orders::Commands::Deliver.new( id: event.data[:id], should_fail: false, failure_reason: nil ))
       when Payments::Cards::Events::AuthorizationFailed
         cqrs.run_command(Fullfillments::Orders::Commands::Abort.new( id: event.data[:id], reason: 'Can not authorize Card' ))
       when Fullfillments::Orders::Events::Delivered
@@ -21,7 +19,6 @@ module Fullfillment
         cqrs.event_store.link(event.event_id, stream_name: 'Fullfillments::Payment::CaptureFailed', expected_version: :any)
       when Fullfillments::Orders::Events::DeliveryFailed
         cqrs.run_command(Payments::Cards::Commands::Release.new( id: event.data[:id]))
-        cqrs.event_store.link(event.event_id, stream_name: 'Fullfillments::Payment::CaptureFailed', expected_version: :any)
       when Payments::Cards::Events::ReleaseFailed
         cqrs.run_command(Fullfillments::Orders::Commands::ManualInvestigate.new( id: event.data[:id]))
       when Payments::Cards::Events::Released

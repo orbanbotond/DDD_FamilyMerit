@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_10_155525) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_21_162538) do
   create_table "activities", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -40,12 +40,29 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_10_155525) do
     t.index ["stream", "position"], name: "index_event_store_events_in_streams_on_stream_and_position", unique: true
   end
 
+  create_table "gamification_team_members", force: :cascade do |t|
+    t.string "team_name"
+    t.string "user_id"
+    t.decimal "ratio"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "time_harvest_reports", force: :cascade do |t|
     t.integer "account_id"
     t.string "user_name"
     t.integer "total_time_gained"
     t.integer "total_time_consumed"
     t.integer "balance"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "transaction_reports", force: :cascade do |t|
+    t.string "transaction_id"
+    t.string "order_id"
+    t.decimal "amount"
+    t.string "transaction_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-RSpec.describe Fullfillment::Process do
+RSpec.describe Processed::OrderFullfillmentProcess do
   include Fullfillments::TestPlumbing
 
   let(:command_bus) { Infra::TestPlumbing::FakeCommandBus.new }

@@ -1,0 +1,16 @@
+p Report of Transactions
+p= @transactions.count
+table
+  th
+    td Transaction Id
+    td Order Id
+    td Amount
+    td Transaction Type
+    td Timestamp
+  - @transactions.each do |transaction|
+    tr
+      td= transaction.transaction_id
+      td= transaction.order_id
+      td= transaction.amount
+      td= transaction.transaction_type
+      td= transaction.created_at

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :transactions, only: :index
   resources :activities
   resources :users
 

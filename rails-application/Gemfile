@@ -49,6 +49,8 @@ gem 'bootstrap', '~> 5.2.0'
 gem 'simple_form'
 
 gem 'infra', path: '../infra'
+gem 'processes', path: '../merits/processes'
+gem 'fullfillment', path: '../merits/fullfillment'
 
 # Use Sass to process CSS
 # gem "sassc-rails"

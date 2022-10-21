@@ -8,6 +8,20 @@ PATH
       dry-types
       ruby_event_store
 
+PATH
+  remote: .
+  specs:
+    processes (1.0.0)
+      aggregate_root
+      dotenv-rails
+      dry-struct
+      dry-types
+      erb
+      pg
+      rake
+      rom-sql
+      ruby_event_store
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -143,20 +157,12 @@ PLATFORMS
   arm64-darwin-21
 
 DEPENDENCIES
-  aggregate_root (~> 2.5.1)
   database_cleaner-sequel
-  dotenv-rails
-  dry-struct
-  dry-types
-  erb
   infra!
-  pg
+  processes!
   pry-nav
-  rake
-  rom-sql (~> 3.2)
   rspec
   rubocop-rails
-  ruby_event_store (~> 2.5.1)
 
 RUBY VERSION
    ruby 3.1.2p20
