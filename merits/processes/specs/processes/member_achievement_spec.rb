@@ -12,8 +12,9 @@ RSpec.describe Processes::MemberAchievement do
   context 'negative cases' do
     describe 'when the gains are below twice as much as the consumes' do
       it 'does not issues the AwardMember command' do
-        given( [ time_gained_for(account_for_user_1_id, minutes * 3, activity_id),
-                 time_consumed_for(account_for_user_1_id, minutes * 2, activity_id)]).each{|event| process.(event)}
+        process_events( [ time_gained_for(account_for_user_1_id, minutes * 3, activity_id),
+                          time_consumed_for(account_for_user_1_id, minutes * 2, activity_id)], 
+                          process: process)
 
         expect_nothing_have_been_commanded
       end
@@ -22,8 +23,9 @@ RSpec.describe Processes::MemberAchievement do
 
   describe 'when the gains are twice as much as consumes' do
     it 'issues the AwardMember command' do
-      given( [ time_gained_for(account_for_user_1_id, minutes * 2, activity_id),
-               time_consumed_for(account_for_user_1_id, minutes, activity_id)]).each{|event| process.(event)}
+      process_events( [ time_gained_for(account_for_user_1_id, minutes * 2, activity_id),
+               time_consumed_for(account_for_user_1_id, minutes, activity_id)],
+               process: process)
 
       expect_have_been_commanded(Gamification::AwardMember.new(user_id: account_for_user_1_id))
     end

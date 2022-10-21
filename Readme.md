@@ -13,16 +13,14 @@ BCs:
 			- aborted
 	- Process:
     - order_created: - P:authorize
-    - P: authorization_succeded -> deliver or abort
+    - P: authorization_succeded -> deliver or fail_to_deliver
     - P: authorization_failed -> abort(cause)
-    - aborted -> P: release (cause)
     - delivery_failed -> P: release (cause)
     - P:release_failed: ???? : manual_investigate
     - P:release_succeded: - link
     - delivered -> P: capture
     - P: capture_succeded: - link
     - P: capture_failed: - link ???? : manual_investigate
-    - ...
 - Payment:
   - authorize: 
   	C:

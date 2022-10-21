@@ -1,14 +1,49 @@
 module Infra
   module TestPlumbing
+    class FakeCommandBus
+      attr_reader :last_received, :all_received
+
+      def initialize
+        @all_received = []
+      end
+
+      def call(command)
+        @last_received = command
+        @all_received << command
+      end
+
+      def register(command, handler)
+      end
+    end
+
     def self.included(klass)
       klass.send(:let, :command_bus) { CommandBus.new }
       klass.send(:let, :event_store) { EventStore.in_memory }
       klass.send(:let, :cqrs) { Cqrs.new(event_store, command_bus) }
 
-      include TestMethods
+      include TestMethodsForAggregateTesting
+      include TestMethodsForProcessTesting
     end
 
-    module TestMethods
+    module TestMethodsForProcessTesting
+      def given(events, store: event_store, process:)
+        events.each { |ev| store.append(ev) }
+        events.each{|event| process.(event)}
+      end
+      alias process_events given
+
+      def expect_have_been_commanded(*expected_commands)
+        expected_commands.all? do |expected_command|
+          expect(command_bus.all_received ).to include(expected_command)
+        end
+      end
+
+      def expect_nothing_have_been_commanded
+        expect(command_bus.all_received ).to be_empty
+      end
+    end
+
+    module TestMethodsForAggregateTesting
       def arrange(*commands)
         commands.each { |command| act(command) }
       end

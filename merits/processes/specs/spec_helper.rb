@@ -6,47 +6,16 @@ require_relative '../lib/processes'
 
 module Processes
   module TestPlumbing
-    class FakeCommandBus
-      attr_reader :last_received, :all_received
-
-      def initialize
-        @all_received = []
-      end
-
-      def call(command)
-        @last_received = command
-        @all_received << command
-      end
-
-      def register(command, handler)
-      end
-    end
-
     def self.included(klass)
       klass.include Infra::TestPlumbing
 
-      klass.send(:let, :command_bus) { FakeCommandBus.new }
+      klass.send(:let, :command_bus) { Infra::TestPlumbing::FakeCommandBus.new }
 
       klass.send(:before, :each) do
         Configuration.new.call(cqrs)
       end
 
-      def given(events, store: event_store)
-        events.each { |ev| store.append(ev) }
-        events
-      end
-
       extend RSpec::Matchers::DSL
-
-      def expect_have_been_commanded(*expected_commands)
-        expected_commands.all? do |expected_command|
-          expect(command_bus.all_received ).to include(expected_command)
-        end
-      end
-
-      def expect_nothing_have_been_commanded
-        expect(command_bus.all_received ).to be_empty
-      end
 
       def account_created_for(user_id, account_id)
         TimeHarvest::Events::AccountCreatedForUser.new( data: {

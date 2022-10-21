@@ -3,7 +3,9 @@ require 'infra'
 require_relative 'events'
 require_relative 'commands'
 require_relative 'order'
+require_relative 'process'
 require_relative 'event_stream_relinker'
+require_relative '../../payments/lib/payment'
 
 module Fullfillments
 	class CreateOrderHandler
@@ -44,19 +46,30 @@ module Fullfillments
 
 	class Configuration
 		def call(cqrs)
+			register_commands(cqrs)
+			register_relinkers(cqrs)
+			register_processes(cqrs)
+		end
+
+private
+
+		def register_processes(cqrs)
+	    cqrs.subscribe(
+	    	Fullfillment::Process.new(cqrs),
+	    	[
+	    		Fullfillments::Orders::Events::Created,
+	    	]
+	    )
+		end
+
+		def register_commands(cqrs)
 			cqrs.register_command(Fullfillments::Orders::Commands::Create, CreateOrderHandler.new(cqrs.event_store), Orders::Events::Created)
 			cqrs.register_command(Fullfillments::Orders::Commands::Abort, AbortOrderHandler.new(cqrs.event_store), Orders::Events::Aborted)
 			cqrs.register_command(Fullfillments::Orders::Commands::Deliver, DeliverOrderHandler.new(cqrs.event_store), [Orders::Events::Delivered, Orders::Events::DeliveryFailed])
+		end
 
+		def register_relinkers(cqrs)
 			cqrs.subscribe(Fullfillments::EventStreamRelinker.new(cqrs), [Fullfillments::Orders::Events::Created])
-
-	    # cqrs.subscribe(
-	    # 	Fullfillment::Process.new(cqrs),
-	    # 	[
-	    # 		Events::Created,
-
-	    # 	]
-	    # )
 		end
 	end
 end

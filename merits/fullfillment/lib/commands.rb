@@ -15,6 +15,10 @@ module Fullfillments
         attribute :id, Infra::Types::Strict::String
         attribute :reason, Infra::Types::Strict::String
       end
+
+      class ManualInvestigate < Infra::Command
+        attribute :id, Infra::Types::Strict::String
+      end
     end
   end
 end
