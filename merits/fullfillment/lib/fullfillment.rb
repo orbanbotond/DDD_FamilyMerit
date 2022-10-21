@@ -3,6 +3,7 @@ require 'infra'
 require_relative 'events'
 require_relative 'commands'
 require_relative 'order'
+require_relative 'event_stream_relinker'
 
 module Fullfillments
 	class CreateOrderHandler
@@ -47,6 +48,8 @@ module Fullfillments
 			cqrs.register_command(Fullfillments::Orders::Commands::Abort, AbortOrderHandler.new(cqrs.event_store), Orders::Events::Aborted)
 			cqrs.register_command(Fullfillments::Orders::Commands::Deliver, DeliverOrderHandler.new(cqrs.event_store), [Orders::Events::Delivered, Orders::Events::DeliveryFailed])
 
+			cqrs.subscribe(Fullfillments::EventStreamRelinker.new(cqrs), [Fullfillments::Orders::Events::Created])
+
 	    # cqrs.subscribe(
 	    # 	Fullfillment::Process.new(cqrs),
 	    # 	[
@@ -54,7 +57,6 @@ module Fullfillments
 
 	    # 	]
 	    # )
-
 		end
 	end
 end
