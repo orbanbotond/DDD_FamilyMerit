@@ -3,6 +3,7 @@ module Fullfillments
     module Commands
       class Create < Infra::Command
         attribute :id, Infra::Types::Strict::String
+        attribute :amount, Infra::Types::Strict::Integer.optional
       end
 
       class Deliver < Infra::Command

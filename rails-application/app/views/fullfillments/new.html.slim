@@ -1,0 +1,4 @@
+= simple_form_for @delivery, url: fullfillments_path, data: { turbo: false } do |form|
+  = form.input :uuid, readonly: true
+  = form.input :quantity
+  = form.button :submit,  'Initiate a Delivery'

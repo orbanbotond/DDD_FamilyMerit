@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
   resources :transactions, only: :index
+
+  resources :fullfillments, only: [:index, :create, :new, :show] do
+    member do
+      get :deliver
+      get :do_not_deliver
+    end
+  end
+
   resources :activities
   resources :users
 

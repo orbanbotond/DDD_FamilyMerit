@@ -49,12 +49,9 @@ module Fullfillment
     end
 
     self.table_name = "transaction_reports"
-    # fields:
-    # - username
-    # - user_id
-    # - total_time_gained
-    # - total_time_consumed
-    # - balance
-    # - last 3 days trend: up/down
+    # t.string "transaction_id"
+    # t.string "order_id"
+    # t.decimal "amount"
+    # t.string "transaction_type"
   end
 end
