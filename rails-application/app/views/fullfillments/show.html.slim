@@ -1,7 +1,8 @@
-- if @fullfillment.not_delivered
-	p The fullfillment was not delivered
-- elsif @fullfillment.delivered
-	p The fullfillment was delivered
-- else
-	= link_to 'Deliver', deliver_fullfillment_path(@delivery_uuid)
-	= link_to 'Dont deliver', do_not_deliver_fullfillment_path(@delivery_uuid)
+div class="container"
+	- if @fullfillment.not_delivered
+		p The fullfillment was not delivered
+	- elsif @fullfillment.delivered
+		p The fullfillment was delivered
+	- else
+		= link_to 'Deliver', deliver_fullfillment_path(@delivery_uuid)
+		= link_to 'Dont deliver', do_not_deliver_fullfillment_path(@delivery_uuid)
