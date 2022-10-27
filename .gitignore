@@ -1,2 +1,3 @@
 rails-application/tmp
+rails-application/log
 **/**/.env.*.local
