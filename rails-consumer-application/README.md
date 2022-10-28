@@ -17,6 +17,6 @@ TODO:
 - Add the DResource reader app to the Consumer rails app! DONE
 - Add transaction migration specific migration: DONE
 - Add dress specific migrations: DONE
-- Subscribe to the payment events to update the transaction read model 
+- Subscribe to the payment events to update the transaction read model DONE
 - remove transaction from the producer Rails app
 - remove the transaction read mode specific code from the producer application.

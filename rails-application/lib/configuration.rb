@@ -16,7 +16,6 @@ class Configuration
 
   def enable_read_models(cqrs)
     TimeHarvest::Report::Configuration.new.call(cqrs)
-    Fullfillment::Transaction::Configuration.new.call(cqrs)
     Fullfillment::Order::Configuration.new.call(cqrs)
   end
 end

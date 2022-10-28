@@ -14,12 +14,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_28_144255) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "activities", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "dres_rails_queue_jobs", force: :cascade do |t|
     t.integer "queue_id", null: false
     t.string "event_id", null: false
@@ -58,47 +52,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_28_144255) do
     t.index ["stream", "position"], name: "index_event_store_events_in_streams_on_stream_and_position", unique: true
   end
 
-  create_table "fullfillment_reports", force: :cascade do |t|
-    t.string "fullfillment_id"
-    t.string "transaction_id"
-    t.boolean "payment_authorized"
-    t.boolean "payment_captured"
-    t.boolean "payment_released"
-    t.boolean "delivered"
-    t.boolean "not_delivered"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "gamification_team_members", force: :cascade do |t|
-    t.string "team_name"
-    t.string "user_id"
-    t.decimal "ratio"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "time_harvest_reports", force: :cascade do |t|
-    t.integer "account_id"
-    t.string "user_name"
-    t.integer "total_time_gained"
-    t.integer "total_time_consumed"
-    t.integer "balance"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "transaction_reports", force: :cascade do |t|
     t.string "transaction_id"
     t.string "order_id"
     t.decimal "amount"
     t.string "transaction_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

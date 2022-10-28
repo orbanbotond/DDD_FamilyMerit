@@ -15,9 +15,14 @@ client = DresClient::Http.new(
 
 handlers = [
   ->(event) do
-    logger.info("got event: #{event}")
-    Rails.configuration.cqrs.publish(event)
-    logger.info("published event to cqrs: #{event}")
+    logger.info("received event: #{event}")
+    if [Payments::Cards::Events::Authorized,
+        Payments::Cards::Events::Captured,
+        Payments::Cards::Events::Released].any? {|event_type| event.instance_of? event_type}
+
+        logger.info("handling: #{event}")
+        Fullfillment::Transaction.(event)
+    end
   end
 ]
 
@@ -29,6 +34,7 @@ app = DresApp.new(
       begin
         handler.(event)
       rescue => doh
+        logger.error doh.backtrace
         logger.error("oh no!: #{doh.message}")
       end
     end

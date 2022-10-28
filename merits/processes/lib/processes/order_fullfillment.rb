@@ -7,7 +7,7 @@ module Processes
     def call(event)
       case event
       when Fullfillments::Orders::Events::Created
-        cqrs.run_command(Payments::Cards::Commands::Authorize.new( id: event.data[:id] ))          
+        cqrs.run_command(Payments::Cards::Commands::Authorize.new( id: event.data[:id] ))
       when Payments::Cards::Events::AuthorizationFailed
         cqrs.run_command(Fullfillments::Orders::Commands::Abort.new( id: event.data[:id], reason: 'Can not authorize Card' ))
       when Fullfillments::Orders::Events::Delivered

@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  resources :transactions, only: :index
-
   resources :fullfillments, only: [:index, :create, :new, :show] do
     member do
       get :deliver
