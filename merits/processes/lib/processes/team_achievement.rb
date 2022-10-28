@@ -53,8 +53,8 @@ module Processes
       end
     end
 
-    def award_teams(teams)
-      teams.each do |team|
+    def award_teams(eligible_teams)
+      eligible_teams.each do |team|
         cqrs.run_command(Gamification::AwardTeam.new(name: team[:team_name]))
       end
     end
