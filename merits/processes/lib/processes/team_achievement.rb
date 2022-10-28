@@ -1,18 +1,18 @@
 module Processes
-	class TeamAchievement
+  class TeamAchievement
     def initialize(cqrs)
       @cqrs = cqrs
     end
 
     def call(event)
-    	case event
+      case event
       when Teams::Events::TeamCreated
-      	store_team_info(event)
+        store_team_info(event)
       when Gamification::Events::MemberAwarded
-      	update_members(event)
-      	teams = load_containing_teams(event)
-      	awarding_teams = select_teams_eligible_for_award(teams)
-      	award_teams(awarding_teams)
+        update_members(event)
+        teams = load_containing_teams(event)
+        awarding_teams = select_teams_eligible_for_award(teams)
+        award_teams(awarding_teams)
       end
     end
 
@@ -25,10 +25,10 @@ module Processes
     end
 
     def store_team_info(event)
-    	team_name = event.data[:name]
-    	event.data[:members].each do |member|
+      team_name = event.data[:name]
+      event.data[:members].each do |member|
         team_members_repo.create team_name: team_name, user_id: member[:user_id], ratio:0
-    	end
+      end
     end
 
     def update_members(event)
@@ -38,12 +38,12 @@ module Processes
     def load_containing_teams(event)
       team_names = team_members_repo.team_names(event.data[:user_id])
 
-    	team_names.map do | team_name|
-    		{ 
-    			team_name: team_name,
-    			members: team_members_repo.by_team_name(team_name)
-    		}
-    	end
+      team_names.map do | team_name|
+        {
+          team_name: team_name,
+          members: team_members_repo.by_team_name(team_name)
+        }
+      end
     end
 
     def select_teams_eligible_for_award(teams)
@@ -53,9 +53,9 @@ module Processes
     end
 
     def award_teams(teams)
-    	teams.each do |team|
-	      cqrs.run_command(Gamification::AwardTeam.new(name: team[:team_name]))
-    	end
+      teams.each do |team|
+        cqrs.run_command(Gamification::AwardTeam.new(name: team[:team_name]))
+      end
     end
-	end
+  end
 end
