@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2022_10_26_135118) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "activities", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -18,12 +21,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_26_135118) do
   end
 
   create_table "event_store_events", force: :cascade do |t|
-    t.string "event_id", limit: 36, null: false
+    t.uuid "event_id", null: false
     t.string "event_type", null: false
     t.binary "metadata"
     t.binary "data", null: false
-    t.datetime "created_at", null: false
-    t.datetime "valid_at"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "valid_at", precision: nil
     t.index ["created_at"], name: "index_event_store_events_on_created_at"
     t.index ["event_id"], name: "index_event_store_events_on_event_id", unique: true
     t.index ["event_type"], name: "index_event_store_events_on_event_type"
@@ -33,8 +36,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_26_135118) do
   create_table "event_store_events_in_streams", force: :cascade do |t|
     t.string "stream", null: false
     t.integer "position"
-    t.string "event_id", limit: 36, null: false
-    t.datetime "created_at", null: false
+    t.uuid "event_id", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["created_at"], name: "index_event_store_events_in_streams_on_created_at"
     t.index ["stream", "event_id"], name: "index_event_store_events_in_streams_on_stream_and_event_id", unique: true
     t.index ["stream", "position"], name: "index_event_store_events_in_streams_on_stream_and_position", unique: true

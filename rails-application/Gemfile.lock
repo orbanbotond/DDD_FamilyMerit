@@ -1,3 +1,21 @@
+GIT
+  remote: https://github.com/RailsEventStore/rails_event_store.git
+  revision: 891b216cd669e8e0f9b5ec03103b2057c48bb66e
+  glob: contrib/dres_client/*.gemspec
+  specs:
+    dres_client (0.6.0)
+      ruby_event_store (>= 2.0, < 3.0)
+
+GIT
+  remote: https://github.com/RailsEventStore/rails_event_store.git
+  revision: 891b216cd669e8e0f9b5ec03103b2057c48bb66e
+  glob: contrib/dres_rails/*.gemspec
+  specs:
+    dres_rails (0.6.0)
+      rails (>= 6.0, < 8.0)
+      rails_event_store (>= 2.0, < 3.0)
+      ruby_event_store (>= 2.0, < 3.0)
+
 PATH
   remote: ../infra
   specs:
@@ -322,7 +340,6 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqlite3 (1.5.2-arm64-darwin)
     stimulus-rails (1.1.0)
       railties (>= 6.0.0)
     temple (0.8.2)
@@ -361,10 +378,13 @@ DEPENDENCIES
   bootstrap (~> 5.2.0)
   capybara
   debug
+  dres_client!
+  dres_rails!
   fullfillment!
   importmap-rails
   infra!
   jbuilder
+  pg (>= 0.18, < 2.0)
   processes!
   pry
   puma (~> 5.0)
@@ -375,7 +395,6 @@ DEPENDENCIES
   simple_form
   slim
   sprockets-rails
-  sqlite3 (~> 1.4)
   stimulus-rails
   turbo-rails
   tzinfo-data
