@@ -10,9 +10,9 @@ module Processes
         store_team_info(event)
       when Gamification::Events::MemberAwarded
         update_members(event)
-        teams = load_containing_teams(event)
-        awarding_teams = select_teams_eligible_for_award(teams)
-        award_teams(awarding_teams)
+        possible_teams = load_containing_teams(event)
+        eligible_teams = select_teams_eligible_for_award(possible_teams)
+        award_teams(eligible_teams)
       end
     end
 
