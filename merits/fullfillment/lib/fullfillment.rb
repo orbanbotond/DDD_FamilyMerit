@@ -4,7 +4,7 @@ require_relative 'events'
 require_relative 'commands'
 require_relative 'order'
 require_relative 'event_stream_relinker'
-require_relative '../../payments/lib/payment'
+require_relative '../../payments/lib/payments'
 
 module Fullfillments
 	class CreateOrderHandler

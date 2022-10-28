@@ -6,7 +6,7 @@ RSpec.describe Fullfillments::Order do
   describe 'commands are handled properly' do
     # let(:command_bus) { Infra::TestPlumbing::FakeCommandBus.new }
 
-    let(:create) { Fullfillments::Orders::Commands::Create.new(id: id) }
+    let(:create) { Fullfillments::Orders::Commands::Create.new(id: id, amount: 1) }
     let(:id) { SecureRandom.uuid }
     let(:deliver) { Fullfillments::Orders::Commands::Deliver.new(id: id, should_fail: false, failure_reason: nil) }
     let(:dont_deliver) { Fullfillments::Orders::Commands::Deliver.new(id: id, should_fail: true, failure_reason: failure_reson) }

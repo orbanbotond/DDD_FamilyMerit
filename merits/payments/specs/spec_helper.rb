@@ -1,5 +1,5 @@
 require 'pry-nav'
-require_relative '../lib/payment.rb'
+require_relative '../lib/payments.rb'
 
 module Payments
   module TestPlumbing

@@ -1,0 +1,15 @@
+div class="container"
+  table class="table table-sm table-striped table-hover" size="sm"
+    thead
+      tr
+        th Transaction Id
+        th Order Id
+        th Amount
+        th Transaction Type
+    tbody
+      - @transactions.each do |transaction|
+        tr
+          td= transaction.transaction_id
+          td= transaction.order_id
+          td= transaction.amount
+          td= transaction.transaction_type

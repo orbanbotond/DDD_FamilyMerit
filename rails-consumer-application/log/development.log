@@ -1,0 +1,220 @@
+  [1m[35m (75.0ms)[0m  [1m[35mCREATE DATABASE "architect_master_class_producer_development" ENCODING = 'unicode'[0m
+  [1m[35m (40.6ms)[0m  [1m[35mCREATE DATABASE "architect_master_class_producer_test" ENCODING = 'unicode'[0m
+  [1m[35m (4.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6176612193370943730)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateEventStoreEvents (20221010155520)
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.5ms)[0m  [1m[35mCREATE TABLE "event_store_events_in_streams" ("id" bigserial NOT NULL PRIMARY KEY, "stream" character varying NOT NULL, "position" integer, "event_id" uuid NOT NULL, "created_at" timestamp NOT NULL)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_event_store_events_in_streams_on_stream_and_position" ON "event_store_events_in_streams" ("stream", "position")[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE INDEX "index_event_store_events_in_streams_on_created_at" ON "event_store_events_in_streams" ("created_at")[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_event_store_events_in_streams_on_stream_and_event_id" ON "event_store_events_in_streams" ("stream", "event_id")[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE TABLE "event_store_events" ("id" bigserial NOT NULL PRIMARY KEY, "event_id" uuid NOT NULL, "event_type" character varying NOT NULL, "metadata" bytea, "data" bytea NOT NULL, "created_at" timestamp NOT NULL, "valid_at" timestamp)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_event_store_events_on_event_id" ON "event_store_events" ("event_id")[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE INDEX "index_event_store_events_on_created_at" ON "event_store_events" ("created_at")[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE INDEX "index_event_store_events_on_valid_at" ON "event_store_events" ("valid_at")[0m
+  [1m[35m (4.3ms)[0m  [1m[35mCREATE INDEX "index_event_store_events_on_event_type" ON "event_store_events" ("event_type")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20221010155520"]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateUsers (20221010155523)
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "name" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20221010155523"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateActivities (20221010155524)
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE TABLE "activities" ("id" bigserial primary key, "name" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20221010155524"]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateTimeHarvestReports (20221010155525)
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.9ms)[0m  [1m[35mCREATE TABLE "time_harvest_reports" ("id" bigserial primary key, "account_id" integer, "user_name" character varying, "total_time_gained" integer, "total_time_consumed" integer, "balance" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20221010155525"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateGamificationTeamMembers (20221014211820)
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (4.4ms)[0m  [1m[35mCREATE TABLE "gamification_team_members" ("id" bigserial primary key, "team_name" character varying, "user_id" character varying, "ratio" decimal, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20221014211820"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateTransactionReports (20221021162538)
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (4.2ms)[0m  [1m[35mCREATE TABLE "transaction_reports" ("id" bigserial primary key, "transaction_id" character varying, "order_id" character varying, "amount" decimal, "transaction_type" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20221021162538"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateFullfillmentReport (20221026135118)
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE TABLE "fullfillment_reports" ("id" bigserial primary key, "fullfillment_id" character varying, "transaction_id" character varying, "payment_authorized" boolean, "payment_captured" boolean, "payment_released" boolean, "delivered" boolean, "not_delivered" boolean, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20221026135118"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.9ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2022-10-28 14:05:28.587408"], ["updated_at", "2022-10-28 14:05:28.587408"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_advisory_unlock(6176612193370943730)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6176612193370943730)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateDresRailsQueues (20221028144035)
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (6.4ms)[0m  [1m[35mCREATE TABLE "dres_rails_queues" ("id" bigserial primary key, "name" character varying NOT NULL, "last_processed_event_id" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (4.2ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_dres_rails_queues_on_name" ON "dres_rails_queues" ("name")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (1.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20221028144035"]]
+  [1m[36mTRANSACTION (1.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateQueueJobs (20221028144255)
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.4ms)[0m  [1m[35mCREATE TABLE "dres_rails_queue_jobs" ("id" bigserial primary key, "queue_id" integer NOT NULL, "event_id" character varying NOT NULL, "state" character varying NOT NULL)[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE INDEX "index_dres_rails_queue_jobs_on_queue_id_and_event_id" ON "dres_rails_queue_jobs" ("queue_id", "event_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20221028144255"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.7ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_advisory_unlock(6176612193370943730)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mDresRails::Queue Load (2.5ms)[0m  [1m[34mSELECT "dres_rails_queues".* FROM "dres_rails_queues" WHERE "dres_rails_queues"."name" = $1 LIMIT $2[0m  [["name", "consumer for transactions"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDresRails::Queue Create (0.9ms)[0m  [1m[32mINSERT INTO "dres_rails_queues" ("name", "last_processed_event_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "consumer for transactions"], ["last_processed_event_id", nil], ["created_at", "2022-10-28 15:19:17.586548"], ["updated_at", "2022-10-28 15:19:17.586548"]]
+  [1m[36mTRANSACTION (1.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mFullfillment::Transaction Count (2.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "transaction_reports"[0m
+  [1m[36mDresRails::Queue Load (0.7ms)[0m  [1m[34mSELECT "dres_rails_queues".* FROM "dres_rails_queues" WHERE "dres_rails_queues"."name" = $1 LIMIT $2[0m  [["name", "consumer for transactions"], ["LIMIT", 1]]
+Started GET "/" for ::1 at 2022-10-28 18:23:09 +0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /Users/orbanbotond/.frum/versions/3.1.2/lib/ruby/gems/3.1.0/gems/railties-7.0.4/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /Users/orbanbotond/.frum/versions/3.1.2/lib/ruby/gems/3.1.0/gems/railties-7.0.4/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.8ms | Allocations: 523)
+Completed 200 OK in 7ms (Views: 2.2ms | ActiveRecord: 0.0ms | Allocations: 3784)
+
+
+Started GET "/transactions" for ::1 at 2022-10-28 18:23:17 +0300
+Processing by TransactionsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering transactions/index.html.slim within layouts/application
+  [1m[36mFullfillment::Transaction Load (2.1ms)[0m  [1m[34mSELECT "transaction_reports".* FROM "transaction_reports"[0m
+  ↳ app/views/transactions/index.html.slim:10
+  Rendered transactions/index.html.slim within layouts/application (Duration: 36.4ms | Allocations: 14686)
+  Rendered layout layouts/application.html.erb (Duration: 94.2ms | Allocations: 61035)
+Completed 200 OK in 98ms (Views: 93.8ms | ActiveRecord: 2.1ms | Allocations: 62171)
+
+
+Started GET "/fullfillments" for ::1 at 2022-10-28 18:23:27 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/fullfillments"):
+  
+  [1m[36mTRANSACTION (1.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDresRails::Queue Load (1.6ms)[0m  [1m[37mSELECT "dres_rails_queues".* FROM "dres_rails_queues" WHERE "dres_rails_queues"."id" = $1 LIMIT $2 FOR UPDATE[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDresRails::Job Exists? (1.4ms)[0m  [1m[34mSELECT 1 AS one FROM "dres_rails_queue_jobs" WHERE "dres_rails_queue_jobs"."queue_id" = $1 AND "dres_rails_queue_jobs"."event_id" = $2 AND "dres_rails_queue_jobs"."state" = $3 LIMIT $4[0m  [["queue_id", 1], ["event_id", "1e05363a-0fb8-4cef-b976-ff6cde953820"], ["state", "success"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDresRails::Job Create (1.5ms)[0m  [1m[32mINSERT INTO "dres_rails_queue_jobs" ("queue_id", "event_id", "state") VALUES ($1, $2, $3) RETURNING "id"[0m  [["queue_id", 1], ["event_id", "1e05363a-0fb8-4cef-b976-ff6cde953820"], ["state", "success"]]
+  [1m[36mTRANSACTION (2.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDresRails::Queue Update (5.6ms)[0m  [1m[33mUPDATE "dres_rails_queues" SET "last_processed_event_id" = $1, "updated_at" = $2 WHERE "dres_rails_queues"."id" = $3[0m  [["last_processed_event_id", "1e05363a-0fb8-4cef-b976-ff6cde953820"], ["updated_at", "2022-10-28 15:23:56.395047"], ["id", 1]]
+  [1m[36mTRANSACTION (2.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (2.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDresRails::Queue Load (2.1ms)[0m  [1m[37mSELECT "dres_rails_queues".* FROM "dres_rails_queues" WHERE "dres_rails_queues"."id" = $1 LIMIT $2 FOR UPDATE[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDresRails::Job Exists? (1.6ms)[0m  [1m[34mSELECT 1 AS one FROM "dres_rails_queue_jobs" WHERE "dres_rails_queue_jobs"."queue_id" = $1 AND "dres_rails_queue_jobs"."event_id" = $2 AND "dres_rails_queue_jobs"."state" = $3 LIMIT $4[0m  [["queue_id", 1], ["event_id", "994bc582-3045-4929-8a11-8e93d1a98af4"], ["state", "success"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDresRails::Job Create (0.7ms)[0m  [1m[32mINSERT INTO "dres_rails_queue_jobs" ("queue_id", "event_id", "state") VALUES ($1, $2, $3) RETURNING "id"[0m  [["queue_id", 1], ["event_id", "994bc582-3045-4929-8a11-8e93d1a98af4"], ["state", "success"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDresRails::Queue Update (0.7ms)[0m  [1m[33mUPDATE "dres_rails_queues" SET "last_processed_event_id" = $1, "updated_at" = $2 WHERE "dres_rails_queues"."id" = $3[0m  [["last_processed_event_id", "994bc582-3045-4929-8a11-8e93d1a98af4"], ["updated_at", "2022-10-28 15:23:56.420521"], ["id", 1]]
+  [1m[36mTRANSACTION (1.3ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/transactions" for ::1 at 2022-10-28 18:24:33 +0300
+Processing by TransactionsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering transactions/index.html.slim within layouts/application
+  [1m[36mFullfillment::Transaction Load (2.3ms)[0m  [1m[34mSELECT "transaction_reports".* FROM "transaction_reports"[0m
+  ↳ app/views/transactions/index.html.slim:10
+  Rendered transactions/index.html.slim within layouts/application (Duration: 52.4ms | Allocations: 11841)
+  Rendered layout layouts/application.html.erb (Duration: 61.4ms | Allocations: 18052)
+Completed 200 OK in 63ms (Views: 45.3ms | ActiveRecord: 16.7ms | Allocations: 18393)
+
+
+Started GET "/transactions" for ::1 at 2022-10-28 18:27:35 +0300
+Processing by TransactionsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering transactions/index.html.slim within layouts/application
+  [1m[36mFullfillment::Transaction Load (13.4ms)[0m  [1m[34mSELECT "transaction_reports".* FROM "transaction_reports"[0m
+  ↳ app/views/transactions/index.html.slim:10
+  Rendered transactions/index.html.slim within layouts/application (Duration: 35.7ms | Allocations: 655)
+  Rendered layout layouts/application.html.erb (Duration: 60.8ms | Allocations: 6620)
+Completed 200 OK in 64ms (Views: 48.6ms | ActiveRecord: 13.4ms | Allocations: 6933)
+
+
+  [1m[36mTRANSACTION (2.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDresRails::Queue Load (4.3ms)[0m  [1m[37mSELECT "dres_rails_queues".* FROM "dres_rails_queues" WHERE "dres_rails_queues"."id" = $1 LIMIT $2 FOR UPDATE[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDresRails::Job Exists? (3.2ms)[0m  [1m[34mSELECT 1 AS one FROM "dres_rails_queue_jobs" WHERE "dres_rails_queue_jobs"."queue_id" = $1 AND "dres_rails_queue_jobs"."event_id" = $2 AND "dres_rails_queue_jobs"."state" = $3 LIMIT $4[0m  [["queue_id", 1], ["event_id", "ab2d8f84-fe8d-445d-8825-7d63831ba3a8"], ["state", "success"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (2.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDresRails::Job Create (6.4ms)[0m  [1m[32mINSERT INTO "dres_rails_queue_jobs" ("queue_id", "event_id", "state") VALUES ($1, $2, $3) RETURNING "id"[0m  [["queue_id", 1], ["event_id", "ab2d8f84-fe8d-445d-8825-7d63831ba3a8"], ["state", "success"]]
+  [1m[36mTRANSACTION (3.9ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDresRails::Queue Update (2.5ms)[0m  [1m[33mUPDATE "dres_rails_queues" SET "last_processed_event_id" = $1, "updated_at" = $2 WHERE "dres_rails_queues"."id" = $3[0m  [["last_processed_event_id", "ab2d8f84-fe8d-445d-8825-7d63831ba3a8"], ["updated_at", "2022-10-28 15:27:49.252110"], ["id", 1]]
+  [1m[36mTRANSACTION (4.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (1.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDresRails::Queue Load (2.5ms)[0m  [1m[37mSELECT "dres_rails_queues".* FROM "dres_rails_queues" WHERE "dres_rails_queues"."id" = $1 LIMIT $2 FOR UPDATE[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDresRails::Job Exists? (4.8ms)[0m  [1m[34mSELECT 1 AS one FROM "dres_rails_queue_jobs" WHERE "dres_rails_queue_jobs"."queue_id" = $1 AND "dres_rails_queue_jobs"."event_id" = $2 AND "dres_rails_queue_jobs"."state" = $3 LIMIT $4[0m  [["queue_id", 1], ["event_id", "f9cb654b-d837-4bcd-a3d2-d0788d5a05c0"], ["state", "success"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (7.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDresRails::Job Create (2.5ms)[0m  [1m[32mINSERT INTO "dres_rails_queue_jobs" ("queue_id", "event_id", "state") VALUES ($1, $2, $3) RETURNING "id"[0m  [["queue_id", 1], ["event_id", "f9cb654b-d837-4bcd-a3d2-d0788d5a05c0"], ["state", "success"]]
+  [1m[36mTRANSACTION (1.6ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDresRails::Queue Update (2.6ms)[0m  [1m[33mUPDATE "dres_rails_queues" SET "last_processed_event_id" = $1, "updated_at" = $2 WHERE "dres_rails_queues"."id" = $3[0m  [["last_processed_event_id", "f9cb654b-d837-4bcd-a3d2-d0788d5a05c0"], ["updated_at", "2022-10-28 15:27:49.320561"], ["id", 1]]
+  [1m[36mTRANSACTION (3.0ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/transactions" for ::1 at 2022-10-28 18:28:09 +0300
+Processing by TransactionsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering transactions/index.html.slim within layouts/application
+  [1m[36mFullfillment::Transaction Load (7.1ms)[0m  [1m[34mSELECT "transaction_reports".* FROM "transaction_reports"[0m
+  ↳ app/views/transactions/index.html.slim:10
+  Rendered transactions/index.html.slim within layouts/application (Duration: 10.6ms | Allocations: 610)
+  Rendered layout layouts/application.html.erb (Duration: 19.7ms | Allocations: 6528)
+Completed 200 OK in 21ms (Views: 13.2ms | ActiveRecord: 7.1ms | Allocations: 6798)
+
+
+  [1m[36mTRANSACTION (1.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDresRails::Queue Load (1.8ms)[0m  [1m[37mSELECT "dres_rails_queues".* FROM "dres_rails_queues" WHERE "dres_rails_queues"."id" = $1 LIMIT $2 FOR UPDATE[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDresRails::Job Exists? (1.8ms)[0m  [1m[34mSELECT 1 AS one FROM "dres_rails_queue_jobs" WHERE "dres_rails_queue_jobs"."queue_id" = $1 AND "dres_rails_queue_jobs"."event_id" = $2 AND "dres_rails_queue_jobs"."state" = $3 LIMIT $4[0m  [["queue_id", 1], ["event_id", "5a532f41-9a82-46c7-9365-e0454ddcc0e0"], ["state", "success"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (1.7ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDresRails::Job Create (1.6ms)[0m  [1m[32mINSERT INTO "dres_rails_queue_jobs" ("queue_id", "event_id", "state") VALUES ($1, $2, $3) RETURNING "id"[0m  [["queue_id", 1], ["event_id", "5a532f41-9a82-46c7-9365-e0454ddcc0e0"], ["state", "success"]]
+  [1m[36mTRANSACTION (1.6ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDresRails::Queue Update (1.7ms)[0m  [1m[33mUPDATE "dres_rails_queues" SET "last_processed_event_id" = $1, "updated_at" = $2 WHERE "dres_rails_queues"."id" = $3[0m  [["last_processed_event_id", "5a532f41-9a82-46c7-9365-e0454ddcc0e0"], ["updated_at", "2022-10-28 15:28:17.759200"], ["id", 1]]
+  [1m[36mTRANSACTION (2.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (1.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDresRails::Queue Load (1.6ms)[0m  [1m[37mSELECT "dres_rails_queues".* FROM "dres_rails_queues" WHERE "dres_rails_queues"."id" = $1 LIMIT $2 FOR UPDATE[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDresRails::Job Exists? (1.1ms)[0m  [1m[34mSELECT 1 AS one FROM "dres_rails_queue_jobs" WHERE "dres_rails_queue_jobs"."queue_id" = $1 AND "dres_rails_queue_jobs"."event_id" = $2 AND "dres_rails_queue_jobs"."state" = $3 LIMIT $4[0m  [["queue_id", 1], ["event_id", "d4938063-ac84-46f7-b741-87eba3e26aee"], ["state", "success"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDresRails::Job Create (1.1ms)[0m  [1m[32mINSERT INTO "dres_rails_queue_jobs" ("queue_id", "event_id", "state") VALUES ($1, $2, $3) RETURNING "id"[0m  [["queue_id", 1], ["event_id", "d4938063-ac84-46f7-b741-87eba3e26aee"], ["state", "success"]]
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDresRails::Queue Update (1.6ms)[0m  [1m[33mUPDATE "dres_rails_queues" SET "last_processed_event_id" = $1, "updated_at" = $2 WHERE "dres_rails_queues"."id" = $3[0m  [["last_processed_event_id", "d4938063-ac84-46f7-b741-87eba3e26aee"], ["updated_at", "2022-10-28 15:28:17.784259"], ["id", 1]]
+  [1m[36mTRANSACTION (1.6ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/transactions" for ::1 at 2022-10-28 18:28:36 +0300
+Processing by TransactionsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering transactions/index.html.slim within layouts/application
+  [1m[36mFullfillment::Transaction Load (2.3ms)[0m  [1m[34mSELECT "transaction_reports".* FROM "transaction_reports"[0m
+  ↳ app/views/transactions/index.html.slim:10
+  Rendered transactions/index.html.slim within layouts/application (Duration: 7.2ms | Allocations: 630)
+  Rendered layout layouts/application.html.erb (Duration: 19.3ms | Allocations: 6537)
+Completed 200 OK in 21ms (Views: 17.8ms | ActiveRecord: 2.3ms | Allocations: 6806)
+
+
+  [1m[36mTRANSACTION (2.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDresRails::Queue Load (6.8ms)[0m  [1m[37mSELECT "dres_rails_queues".* FROM "dres_rails_queues" WHERE "dres_rails_queues"."id" = $1 LIMIT $2 FOR UPDATE[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDresRails::Job Exists? (4.7ms)[0m  [1m[34mSELECT 1 AS one FROM "dres_rails_queue_jobs" WHERE "dres_rails_queue_jobs"."queue_id" = $1 AND "dres_rails_queue_jobs"."event_id" = $2 AND "dres_rails_queue_jobs"."state" = $3 LIMIT $4[0m  [["queue_id", 1], ["event_id", "c2bc471f-1e73-41ac-ac9d-66e983fdbd03"], ["state", "success"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (2.5ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDresRails::Job Create (2.5ms)[0m  [1m[32mINSERT INTO "dres_rails_queue_jobs" ("queue_id", "event_id", "state") VALUES ($1, $2, $3) RETURNING "id"[0m  [["queue_id", 1], ["event_id", "c2bc471f-1e73-41ac-ac9d-66e983fdbd03"], ["state", "success"]]
+  [1m[36mTRANSACTION (2.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDresRails::Queue Update (4.4ms)[0m  [1m[33mUPDATE "dres_rails_queues" SET "last_processed_event_id" = $1, "updated_at" = $2 WHERE "dres_rails_queues"."id" = $3[0m  [["last_processed_event_id", "c2bc471f-1e73-41ac-ac9d-66e983fdbd03"], ["updated_at", "2022-10-28 15:28:50.697263"], ["id", 1]]
+  [1m[36mTRANSACTION (5.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (2.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mDresRails::Queue Load (2.2ms)[0m  [1m[37mSELECT "dres_rails_queues".* FROM "dres_rails_queues" WHERE "dres_rails_queues"."id" = $1 LIMIT $2 FOR UPDATE[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mDresRails::Job Exists? (6.1ms)[0m  [1m[34mSELECT 1 AS one FROM "dres_rails_queue_jobs" WHERE "dres_rails_queue_jobs"."queue_id" = $1 AND "dres_rails_queue_jobs"."event_id" = $2 AND "dres_rails_queue_jobs"."state" = $3 LIMIT $4[0m  [["queue_id", 1], ["event_id", "13ce4368-dc62-49ab-b23f-2183c9cf12a6"], ["state", "success"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (3.9ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mDresRails::Job Create (2.4ms)[0m  [1m[32mINSERT INTO "dres_rails_queue_jobs" ("queue_id", "event_id", "state") VALUES ($1, $2, $3) RETURNING "id"[0m  [["queue_id", 1], ["event_id", "13ce4368-dc62-49ab-b23f-2183c9cf12a6"], ["state", "success"]]
+  [1m[36mTRANSACTION (3.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mDresRails::Queue Update (19.5ms)[0m  [1m[33mUPDATE "dres_rails_queues" SET "last_processed_event_id" = $1, "updated_at" = $2 WHERE "dres_rails_queues"."id" = $3[0m  [["last_processed_event_id", "13ce4368-dc62-49ab-b23f-2183c9cf12a6"], ["updated_at", "2022-10-28 15:28:50.744164"], ["id", 1]]
+  [1m[36mTRANSACTION (3.2ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/transactions" for ::1 at 2022-10-28 18:29:02 +0300
+Processing by TransactionsController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering transactions/index.html.slim within layouts/application
+  [1m[36mFullfillment::Transaction Load (2.9ms)[0m  [1m[34mSELECT "transaction_reports".* FROM "transaction_reports"[0m
+  ↳ app/views/transactions/index.html.slim:10
+  Rendered transactions/index.html.slim within layouts/application (Duration: 7.3ms | Allocations: 651)
+  Rendered layout layouts/application.html.erb (Duration: 15.1ms | Allocations: 6563)
+Completed 200 OK in 17ms (Views: 13.1ms | ActiveRecord: 2.9ms | Allocations: 6833)
+
+

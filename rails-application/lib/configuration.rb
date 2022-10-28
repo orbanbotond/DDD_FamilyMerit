@@ -1,5 +1,4 @@
 require_relative "../../merits/configuration"
-require_relative "../../merits/configuration"
 
 class Configuration
   def call(cqrs)
