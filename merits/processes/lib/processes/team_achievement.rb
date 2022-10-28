@@ -37,11 +37,12 @@ module Processes
 
     def load_containing_teams(event)
       team_names = team_members_repo.team_names(event.data[:user_id])
+      members = team_members_repo.by_team_names(team_names)
 
       team_names.map do | team_name|
         {
           team_name: team_name,
-          members: team_members_repo.by_team_name(team_name)
+          members: members.to_a.select{|member| member[:team_name] == team_name}
         }
       end
     end

@@ -20,9 +20,9 @@ module DataMapper
           .select(:team_name).to_a.map(&:team_name)
       end
 
-      def by_team_name(team_name)
+      def by_team_names(team_names)
         team_members_info
-          .where(team_name: team_name)
+          .where(team_name: team_names)
       end
     end
   end
