@@ -6,7 +6,8 @@ Rails.configuration.to_prepare do
     repository: RailsEventStoreActiveRecord::PgLinearizedEventRepository.new(serializer: YAML)
   )
 
-  Rails.configuration.command_bus = Arkency::CommandBus.new
+  Rails.configuration.command_bus = PersistedCommandBus::CommandBus.new
+  # Rails.configuration.command_bus = Arkency::CommandBus.new
 
   cqrs = Infra::Cqrs.new(Rails.configuration.event_store, Rails.configuration.command_bus)
 

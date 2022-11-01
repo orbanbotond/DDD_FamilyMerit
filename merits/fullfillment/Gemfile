@@ -13,6 +13,14 @@ group :development, :test do
 	gem 'pry-nav'
   gem 'rspec'
   gem 'rubocop-rails', require: false
+
+  source "https://oss:7AXfeZdAfCqL1PvHm2nvDJO6Zd9UW8IK@gem.mutant.dev" do
+    gem "mutant-license"
+  end
+
+  source "https://rubygems.org" do
+    gem "mutant-rspec"
+  end
 end
 
 group :test do

@@ -17,6 +17,17 @@ GIT
       ruby_event_store (>= 2.0, < 3.0)
 
 PATH
+  remote: ../command-sourcing
+  specs:
+    command_sourcing (1.0.0)
+      arkency-command_bus
+      dotenv-rails
+      erb
+      pg
+      rake
+      rom-sql
+
+PATH
   remote: ../infra
   specs:
     infra (1.0.0)
@@ -377,6 +388,7 @@ DEPENDENCIES
   bootsnap
   bootstrap (~> 5.2.0)
   capybara
+  command_sourcing!
   debug
   dres_client!
   dres_rails!
