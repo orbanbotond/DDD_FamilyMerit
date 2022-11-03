@@ -15,11 +15,23 @@ module PersistedCommandBus
       arkency_command_bus.(command)
     end
 
+    def replay_history
+      historycal_commands.each do |command|
+        self.(command)
+      end
+    end
+
+    def historycal_commands
+      repository.all_commands.map do |record|
+        record.command_type.constantize.new record.properties.symbolize_keys
+      end
+    end
+
     private
       attr_reader :arkency_command_bus, :repository
 
     def persist_command(command)
-      repository.create properties: command.to_h
+      repository.create properties: command.to_h, command_type: command.class.to_s, creation_timestamp: Time.now
     end
   end
 end

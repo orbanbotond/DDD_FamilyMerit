@@ -6,7 +6,7 @@ require_relative 'lib/command_sourcing'
 
 namespace :db do
   task :setup do
-    connection_uri = DataMapper::DatabaseConnection.connection_uri(DataMapper::DatabaseConnection.connection_options)
+    connection_uri = CommandSourcing::DataMapper::DatabaseConnection.connection_uri(CommandSourcing::DataMapper::DatabaseConnection.connection_options)
 
     config = ROM::Configuration.new(:sql, connection_uri, {})
     ROM::SQL::RakeSupport.env = ROM.container(config)
