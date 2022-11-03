@@ -13,8 +13,10 @@ module Fullfillments
     def create(_)
       raise AlreadyCreated if @state == :created
 
-      event = Orders::Events::Created.new(data: {id: @id})
-      apply event
+      old_event = Orders::Events::Created.new( data: { id: @id } )
+      new_version = Orders::Events::Convertors::Created_V1ToV2.new.( old_event )
+
+      apply old_event, new_version
     end
 
     def deliver(command)
@@ -41,6 +43,12 @@ module Fullfillments
 
     on Orders::Events::Created do |event|
       @state = :created
+      @amount = 1
+    end
+
+    on Orders::Events::CreatedV2 do |event|
+      @state = :created
+      @amount = event.data[:amount]
     end
 
     on Orders::Events::Delivered do |event|

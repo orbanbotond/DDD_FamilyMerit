@@ -14,14 +14,14 @@ RSpec.describe Fullfillments::Order do
 
     describe 'create' do
       subject(:event) { Fullfillments::Orders::Events::Created.new( data: { id: id } )}
-      
+      subject(:event_v2) { Fullfillments::Orders::Events::CreatedV2.new( data: { id: id, amount: 1 } )}
 
       let(:data) { { id: id } }
 
       it 'publishes the Created event' do
         expect {
           run_command(create)
-        }.to publish_in_stream("Fullfillments::Order$#{id}", event)
+        }.to publish_in_stream("Fullfillments::Order$#{id}", event, event_v2)
       end
 
       describe 'cant create twice' do
