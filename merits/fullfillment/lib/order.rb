@@ -40,11 +40,6 @@ module Fullfillments
 
   private
 
-    on Orders::Events::Created do |event|
-      @state = :created
-      @amount = 1
-    end
-
     on Orders::Events::CreatedV2 do |event|
       @state = :created
       @amount = event.data[:amount]

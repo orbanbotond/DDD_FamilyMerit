@@ -13,7 +13,6 @@ RSpec.describe Fullfillments::Order do
     let(:abort) { Fullfillments::Orders::Commands::Abort.new(id: id, reason: reason) }
 
     describe 'create' do
-      subject(:event) { Fullfillments::Orders::Events::Created.new( data: { id: id } )}
       subject(:event_v2) { Fullfillments::Orders::Events::CreatedV2.new( data: { id: id, amount: 1 } )}
 
       let(:data) { { id: id } }

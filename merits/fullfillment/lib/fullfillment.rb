@@ -52,13 +52,12 @@ module Fullfillments
 private
 
 		def register_commands(cqrs)
-			cqrs.register_command(Fullfillments::Orders::Commands::Create, CreateOrderHandler.new(cqrs.event_store), Orders::Events::Created)
+			cqrs.register_command(Fullfillments::Orders::Commands::Create, CreateOrderHandler.new(cqrs.event_store), Orders::Events::CreatedV2)
 			cqrs.register_command(Fullfillments::Orders::Commands::Abort, AbortOrderHandler.new(cqrs.event_store), Orders::Events::Aborted)
 			cqrs.register_command(Fullfillments::Orders::Commands::Deliver, DeliverOrderHandler.new(cqrs.event_store), [Orders::Events::Delivered, Orders::Events::DeliveryFailed])
 		end
 
 		def register_relinkers(cqrs)
-			cqrs.subscribe(Fullfillments::EventStreamRelinker.new(cqrs), [Fullfillments::Orders::Events::Created])
 			cqrs.subscribe(Fullfillments::EventStreamRelinker.new(cqrs), [Fullfillments::Orders::Events::CreatedV2])
 		end
 	end
