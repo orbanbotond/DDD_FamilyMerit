@@ -7,7 +7,7 @@ module Fullfillment
         subscribe_and_link_to_stream(
           ->(event) { record_transaction(event) },
           [
-            Fullfillments::Orders::Events::Created,
+            Fullfillments::Orders::Events::CreatedV2,
             Fullfillments::Orders::Events::Delivered,
             Fullfillments::Orders::Events::Aborted,
             Fullfillments::Orders::Events::DeliveryFailed
@@ -35,8 +35,8 @@ module Fullfillment
 
       def record_transaction(event)
         case event
-        when Fullfillments::Orders::Events::Created
-          Order.create fullfillment_id: event.data[:id]
+        when Fullfillments::Orders::Events::CreatedV2
+          Order.create fullfillment_id: event.data[:id], amount: event.data[:amount]
         when Fullfillments::Orders::Events::Delivered
           order = order_found_from_event(event)
           order.update delivered: true

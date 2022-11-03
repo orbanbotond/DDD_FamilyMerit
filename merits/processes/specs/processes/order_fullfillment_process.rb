@@ -7,7 +7,7 @@ RSpec.describe Processed::OrderFullfillmentProcess do
   let(:process) { Fullfillment::Process.new(cqrs) }
 
   let(:id) { SecureRandom.uuid }
-  let(:order_created) { Fullfillments::Orders::Events::Created.new(data: {id: id}) }
+  let(:order_created) { Fullfillments::Orders::Events::CreatedV2.new(data: {id: id}) }
   let(:deliver_order) { Fullfillments::Orders::Commands::Deliver.new(id: id, should_fail: false, failure_reason: nil) }
   let(:order_delivered) { Fullfillments::Orders::Events::Delivered.new(data: {id: id}) }
   let(:abort_order) { Fullfillments::Orders::Commands::Abort.new( id: id, reason: 'Can not authorize Card' ) }

@@ -59,6 +59,7 @@ private
 
 		def register_relinkers(cqrs)
 			cqrs.subscribe(Fullfillments::EventStreamRelinker.new(cqrs), [Fullfillments::Orders::Events::Created])
+			cqrs.subscribe(Fullfillments::EventStreamRelinker.new(cqrs), [Fullfillments::Orders::Events::CreatedV2])
 		end
 	end
 end

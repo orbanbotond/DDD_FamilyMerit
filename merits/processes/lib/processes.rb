@@ -36,7 +36,7 @@ module Processes
 	    cqrs.subscribe(
 	    	Processes::OrderFullfillment.new(cqrs),
 	    	[
-	    		Fullfillments::Orders::Events::Created,
+	    		Fullfillments::Orders::Events::CreatedV2,
 	    		Payments::Cards::Events::Authorized,
 	    		Payments::Cards::Events::AuthorizationFailed,
 	    		Fullfillments::Orders::Events::Delivered,
