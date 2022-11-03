@@ -21,7 +21,7 @@ RSpec.describe Fullfillments::Order do
       it 'publishes the Created event' do
         expect {
           run_command(create)
-        }.to publish_in_stream("Fullfillments::Order$#{id}", event, event_v2)
+        }.to publish_in_stream("Fullfillments::Order$#{id}", event_v2)
       end
 
       describe 'cant create twice' do

@@ -4,3 +4,22 @@
 require_relative "config/application"
 
 Rails.application.load_tasks
+
+namespace :events do
+  namespace :migrate do
+	  namespace :order_create do
+	    desc "OrderCreate from V1 to V2"
+	    task :v1_to_v2 => :environment do
+	    	Rails.configuration.event_store
+				  .read
+				  .of_type([Fullfillments::Orders::Events::Created])
+				  .each_batch do |events|
+				  	v2_events = events.map do |event| 
+				    	Fullfillments::Orders::Events::CreatedV2.new(event_id: event.event_id, data: Fullfillments::Orders::Events::Convertors::Created_V1ToV2.new.(event).data, metadata: event.metadata)
+				    end
+				    Rails.configuration.event_store.overwrite(v2_events)
+				  end
+	    end
+	  end
+	end
+end
