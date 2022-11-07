@@ -1,3 +1,5 @@
+ENV['ENVIRONMENT'] = 'test'
+
 require_relative '../lib/teams'
 
 module Teams

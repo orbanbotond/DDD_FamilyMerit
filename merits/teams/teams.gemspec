@@ -8,4 +8,10 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.files = Dir["lib/**/*"]
   spec.summary = "Team Handling Bounded Context"
+
+  spec.add_dependency 'rom-sql'
+  spec.add_dependency 'pg'
+  spec.add_dependency 'rake'
+  spec.add_dependency 'dotenv-rails'
+  spec.add_dependency 'erb'
 end
