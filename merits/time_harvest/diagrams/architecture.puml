@@ -1,0 +1,27 @@
+@startuml
+
+skinparam component {
+  backgroundColor<<aggregate>> Business
+  backgroundColor<<shared lib>> Green
+}
+
+skinparam class {
+  backgroundColor<<command>> LightSkyBlue
+  backgroundColor<<event>> DarkOrange
+  backgroundColor<<aggregate>> Business
+  backgroundColor<<process>> Violet
+}
+
+package "TimeHarvest" {
+	class "ConsumeTime"  <<command>>
+	class "GainTime"  <<command>>
+	class "CreateAccount"  <<command>>
+
+	class "AccountCreatedForUser"  <<event>>
+	class "TimeConsumedOnActivity"  <<event>>
+	class "TimeGainedOnActivity"  <<event>>
+
+	class "Account" <<aggregate>>
+}
+
+@enduml
