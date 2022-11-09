@@ -17,4 +17,4 @@ Components:
 
 Fine Details:
 
-![alt text](./diagrams/big_pucture.png)
+![alt text](./diagrams/big_picture.png)
