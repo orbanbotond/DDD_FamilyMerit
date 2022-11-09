@@ -3,39 +3,52 @@
 package "Infra" {
 }
 
-package "Fullfillment" {
+package "Fullfillments" {
+  [Order] - OrderCommands
+  OrderEvents - [Order]
 }
 
 package "Payments" {
+  CardEvents - [Card]
+  [Card] - CardCommands
 }
 
 package "Processes" {
 }
 
 package "Teams" {
+	MemberEvents -left- [Member]
+	[Member] -up- MemberCommands
+	TeamEvents -up- [Team]
+	[Team] - TeamCommands
 }
 
 package "TimeHarvest" {
+	TimeEvents - [Account]
+	[Account] - TimeCommands
 }
 
-package "Main RailsApplication" {
+package "Web Interface" {
+	[Reporting RailsApplication]
+	[Main RailsApplication]
 }
 
-package "Reporting RailsApplication" {
-}
+Fullfillments ---|> Infra
+Payments ---|> Infra
+Processes ---|> Infra
+Teams ---|> Infra
+TimeHarvest ---|> Infra
 
-Fullfillment --> Infra
-Payments --> Infra
-Processes --> Infra
-Teams --> Infra
-TimeHarvest --> Infra
-
-"Main RailsApplication" --> Fullfillment
-"Reporting RailsApplication" --> "Main RailsApplication"
-"Reporting RailsApplication" ---> Payments
-Processes --> Payments
-Processes --> Fullfillments
-Processes --> Teams
-Processes --> TimeHarvest
+"Main RailsApplication" ----> TimeCommands : issues
+"Main RailsApplication" ----> TeamCommands : issues
+"Main RailsApplication" ----> MemberCommands : issues
+"Main RailsApplication" ----> OrderCommands : issues
+"Reporting RailsApplication" ..> "Main RailsApplication" :consumes remote events
+"Reporting RailsApplication" ...> CardEvents :consumes
+Processes ..up.> CardEvents :consumes
+Processes ..up.> OrderEvents :consumes
+Processes ..up.> TeamEvents :consumes
+Processes ..up.> TimeEvents :consumes
+Processes --up-> CardCommands :issues
 
 @enduml

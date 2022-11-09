@@ -97,18 +97,18 @@ package "Reporting RailsApplication" {
 	class "Fullfillment::Transaction" <<read_model>>
 }
 
-Fullfillments -----> Infra
-Payments -----> Infra
-Processes -----> Infra
-Teams -----> Infra
-TimeHarvest -----> Infra
+Fullfillments --> Infra
+Payments --> Infra
+Processes --> Infra
+Teams --> Infra
+TimeHarvest --> Infra
 
 "Main RailsApplication" --> Fullfillments
 "Reporting RailsApplication" -> "Main RailsApplication"
 "Reporting RailsApplication" ---> Payments
-Processes --> Payments
-Processes --> Fullfillments
-Processes --> Teams
-Processes --> TimeHarvest
+Processes ----> Payments
+Processes ----> Fullfillments
+Processes ----> Teams
+Processes ----> TimeHarvest
 
 @enduml
