@@ -1,0 +1,41 @@
+@startuml
+
+package "Infra" {
+}
+
+package "Fullfillment" {
+}
+
+package "Payments" {
+}
+
+package "Processes" {
+}
+
+package "Teams" {
+}
+
+package "TimeHarvest" {
+}
+
+package "Main RailsApplication" {
+}
+
+package "Reporting RailsApplication" {
+}
+
+Fullfillment --> Infra
+Payments --> Infra
+Processes --> Infra
+Teams --> Infra
+TimeHarvest --> Infra
+
+"Main RailsApplication" --> Fullfillment
+"Reporting RailsApplication" --> "Main RailsApplication"
+"Reporting RailsApplication" ---> Payments
+Processes --> Payments
+Processes --> Fullfillments
+Processes --> Teams
+Processes --> TimeHarvest
+
+@enduml

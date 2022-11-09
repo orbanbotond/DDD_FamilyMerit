@@ -1,0 +1,22 @@
+require 'bundler/setup'
+Bundler.require(:development)
+
+require 'rom/sql/rake_task'
+require_relative 'lib/teams'
+
+namespace :db do
+  task :setup do
+    connection_uri = Teams::DataMapper::DatabaseConnection.connection_uri(Teams::DataMapper::DatabaseConnection.connection_options)
+
+    config = ROM::Configuration.new(:sql, connection_uri, {})
+    ROM::SQL::RakeSupport.env = ROM.container(config)
+  end
+end
+
+namespace :gdpr do
+  task :forget, [:uuid] do |task, args|
+    repo = Teams::DataMapper::DatabaseConnection::new(Teams::DataMapper::DatabaseConnection.connection_options).member_repo
+    uuid = args[:uuid]
+    repo.update(uuid, email: 'Forgotten_By_GDPR@forgotten.com')
+  end
+end

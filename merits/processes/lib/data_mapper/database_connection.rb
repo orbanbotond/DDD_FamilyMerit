@@ -12,7 +12,7 @@ module DataMapper
       def connection_options
         db_config_file_location = File.join __dir__, '..', '..', 'config', 'database.yml'
         erb = ERB.new( File.read( db_config_file_location))
-        db_config = YAML.safe_load(erb.result(binding), aliases: true)
+        db_config = YAML.safe_load(erb.result, aliases: true)
         db_config[$processes_environment.to_s]
       end
 

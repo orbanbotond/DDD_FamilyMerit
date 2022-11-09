@@ -1,0 +1,12 @@
+= link_to 'Create New Delivery', new_fullfillment_path
+
+div class="container"
+  table class="table table-sm table-striped table-hover" size="sm"
+    thead
+      tr
+        th Fullfillment Id
+    tbody
+      - @fullfillments.each do |fullfillment|
+        tr
+          td= can_still_deliver?(fullfillment) ? link_to(fullfillment.fullfillment_id, fullfillment_path(fullfillment.fullfillment_id)) : fullfillment.fullfillment_id
+          td= delivery_status_message(fullfillment)

@@ -1,0 +1,16 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  host: localhost
+  username: <%= ENV.fetch("RDS_USERNAME", "postgres") %>
+  password: <%= ENV.fetch("RDS_PASSWORD", "postgres") %>
+development:
+  <<: *default
+  database: merits_command_sourcing_development
+
+test: &test
+  <<: *default
+  database: merits_command_sourcing_test
+
+production:

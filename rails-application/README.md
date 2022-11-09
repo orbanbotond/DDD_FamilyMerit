@@ -1,24 +1,13 @@
 # README
+Run:
+- env DRES_API_KEY=bazinga foreman start
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+What it does:
+=============
+- serves as a web ui for these domains:
+  - family merit
+  - member, team award gamification
+  - payments
+  - fullfillments
+  - processes between them
+  - it also serves as an endpoint to publish the events to distributed event readers

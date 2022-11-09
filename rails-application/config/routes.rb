@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  resources :fullfillments, only: [:index, :create, :new, :show] do
+    member do
+      get :deliver
+      get :do_not_deliver
+    end
+  end
+
   resources :activities
   resources :users
 
@@ -18,4 +25,11 @@ Rails.application.routes.draw do
   end
 
   mount RailsEventStore::Browser => "/res"
+
+  class CanSeeResEvents
+    def matches?(request)
+      request.headers["HTTP_RES_API_KEY"] == ENV['DRES_API_KEY']
+    end
+  end
+  mount DresRails::Engine => "/res_events", constraints: CanSeeResEvents.new
 end
