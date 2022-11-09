@@ -12,19 +12,6 @@ skinparam class {
   backgroundColor<<process>> Violet
 }
 
-package "Fullfillments" {
-	class "Create"  <<command>>
-	class "Deliver"  <<command>>
-	class "Abort"  <<command>>
-
-	class "Created"  <<event>>
-	class "Delivered"  <<event>>
-	class "Aborted"  <<event>>
-	class "DeliveryFailed"  <<event>>
-
-	class "Order"  <<aggregate>>
-}
-
 package "Teams" {
 	class "CreateMember"  <<command>>
 	class "Member" <<aggregate>>

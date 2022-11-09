@@ -1,4 +1,4 @@
-Command Sourcing
+Teams
 ================
 
 This gem serves as source for the Team Management bounded context.
