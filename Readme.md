@@ -11,4 +11,10 @@ Main features:
 Diagrams
 --------
 
+Components:
+
 ![alt text](./diagrams/architecture.png)
+
+Fine Details:
+
+![alt text](./diagrams/big_pucture.png)

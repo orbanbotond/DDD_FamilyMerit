@@ -1,0 +1,114 @@
+@startuml
+
+skinparam component {
+  backgroundColor<<aggregate>> Business
+  backgroundColor<<shared lib>> Green
+}
+
+skinparam class {
+  backgroundColor<<command>> LightSkyBlue
+  backgroundColor<<event>> DarkOrange
+  backgroundColor<<aggregate>> Business
+  backgroundColor<<process>> Violet
+}
+
+package "Infra" {
+	class "CommandBus"
+	class "Cqrs"
+	class "Aggregate"
+	class "AggregateRoot"
+	class "Event"
+	class "Command"
+
+	package "Testing utils" {
+	}
+}
+
+package "Fullfillments" {
+	class "Create"  <<command>>
+	class "Deliver"  <<command>>
+	class "Abort"  <<command>>
+
+	class "Created"  <<event>>
+	class "Delivered"  <<event>>
+	class "Aborted"  <<event>>
+	class "DeliveryFailed"  <<event>>
+
+	class "Order"  <<aggregate>>
+}
+
+package "Payments" {
+  class "Authorize"  <<command>>
+  class "Capture"  <<command>>
+  class "Release"  <<command>>
+
+	class "Authorized"  <<event>>
+	class "AuthorizationFailed"  <<event>>
+	class "Captured"  <<event>>
+	class "CaptureFailed"  <<event>>
+	class "Released"  <<event>>
+	class "ReleaseFailed"  <<event>>
+
+	class "Card" <<aggregate>>
+	class "Gateway"
+}
+
+package "Processes" {
+	class "MemberAchievement"  <<process>>
+	class "TeamAchievement"  <<process>>
+	class "OrderFullfillment"  <<process>>
+
+	class "MemberAwarded"  <<event>>
+	class "TeamAwarded"  <<event>>
+
+	class "AwardMember"  <<command>>
+	class "AwardTeam"  <<command>>
+}
+
+package "Teams" {
+	class "CreateMember"  <<command>>
+	class "Member" <<aggregate>>
+	class "MemberCreated"  <<event>>
+
+	class "CreateTeam"  <<command>>
+	class "AchieveDoubleBronze"  <<command>>
+	class "TeamFormation" <<aggregate>>
+	class "TeamCreated"  <<event>>
+}
+
+package "TimeHarvest" {
+	class "ConsumeTime"  <<command>>
+	class "GainTime"  <<command>>
+	class "CreateAccount"  <<command>>
+
+	class "AccountCreatedForUser"  <<event>>
+	class "TimeConsumedOnActivity"  <<event>>
+	class "TimeGainedOnActivity"  <<event>>
+
+	class "Account" <<aggregate>>
+}
+
+package "Main RailsApplication" {
+	class "Fullfillment::Order" <<read_model>>
+	class "TimeHarvest::Report" <<read_model>>
+}
+
+package "Reporting RailsApplication" {
+	class "Fullfillment::Transaction" <<read_model>>
+}
+
+Fullfillments -----> Infra
+Payments -----> Infra
+Processes -----> Infra
+Teams -----> Infra
+TimeHarvest -----> Infra
+
+"Main RailsApplication" --> Fullfillments
+"Reporting RailsApplication" -> "Main RailsApplication"
+"Reporting RailsApplication" ---> Payments
+Processes --> Payments
+Processes --> Fullfillments
+Processes --> Teams
+Processes --> TimeHarvest
+
+@enduml
