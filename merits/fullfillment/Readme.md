@@ -24,5 +24,5 @@ Instead of doing:
 Rails.configuration.command_bus = Arkency::CommandBus.new
 ```
 
-![alt text](../diagrams/commands_events.png)
+![alt text](./diagrams/commands_events.png)
 
