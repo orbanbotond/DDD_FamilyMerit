@@ -15,6 +15,9 @@ Initialize like this:
 Rails.configuration.command_bus = PersistedCommandBus::CommandBus.new
 ```
 
+Then You will be able to replay the history as part of Your `Disaster Recovery Plan` like this:
+`Rails.configuration.command_bus.replay_history`
+
 Instead of doing:
 ```
 Rails.configuration.command_bus = Arkency::CommandBus.new
