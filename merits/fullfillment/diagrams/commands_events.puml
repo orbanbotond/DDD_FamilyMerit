@@ -1,0 +1,31 @@
+@startuml
+
+package "Infra" {
+}
+
+package "Fullfillment" {
+  package "Commands" {
+    [Create]
+    [Deliver]
+    [Aborted]
+  }
+
+  package "Handlers" {
+    [EventsHandler]
+  }
+
+  package "Events" {
+    [Created]
+    [Delivered]
+    [DeliveryFailed]
+    [Aborted]
+  }
+
+  EventsHandler --> [Commands]
+  EventsHandler --> [Order]
+  [Order] -> [Events]
+}
+
+Fullfillment --> Infra
+
+@enduml
