@@ -1,13 +1,11 @@
 Command Sourcing
 ================
 
-This gem serves as source for the Fullfillment bounded context.
+This gem serves as source for the Team Management bounded context.
 
 Main features:
-- Create An Order
-- Deliver
-- DeliverWithFailure
-- Abort
+- Create a Team
+- Create a Team Member (Move To User Management)
 
 Diagrams
 --------

@@ -1,0 +1,28 @@
+@startuml
+
+skinparam component {
+  backgroundColor<<aggregate>> Business
+  backgroundColor<<shared lib>> Green
+}
+
+skinparam class {
+  backgroundColor<<command>> LightSkyBlue
+  backgroundColor<<event>> DarkOrange
+  backgroundColor<<aggregate>> Business
+  backgroundColor<<process>> Violet
+}
+
+package "Fullfillments" {
+	class "Create"  <<command>>
+	class "Deliver"  <<command>>
+	class "Abort"  <<command>>
+
+	class "Created"  <<event>>
+	class "Delivered"  <<event>>
+	class "Aborted"  <<event>>
+	class "DeliveryFailed"  <<event>>
+
+	class "Order"  <<aggregate>>
+}
+
+@enduml

@@ -8,11 +8,11 @@ Main features:
 - Team Management
 - Order Fullfillments
 
-Components:
------------
+Component Diagrams:
+-------------------
 - [Time Management](./merits/time_harvest/Readme.md)
-- [Order Fullfillment](other_file.md)
-- [Team Management](other_file.md)
+- [Order Fullfillment](./merits/fullfillment/Readme.md)
+- [Team Management](./merits/teams/Readme.md)
 
 Diagram
 --------
