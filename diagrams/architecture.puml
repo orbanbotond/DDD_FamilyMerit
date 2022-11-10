@@ -8,6 +8,20 @@ package "Fullfillments" {
   OrderEvents - [Order]
 }
 
+
+database "RDBMS for Webb App" {
+	[DB1]
+}
+
+database "RDBMS for Reporting Webb App" {
+}
+
+database "RDBMS for Processes" {
+}
+
+database "RDBMS for Teams" {
+}
+
 package "Payments" {
   CardEvents - [Card]
   [Card] - CardCommands
