@@ -14,12 +14,15 @@ database "RDBMS for Webb App" {
 }
 
 database "RDBMS for Reporting Webb App" {
+	[DB2]
 }
 
 database "RDBMS for Processes" {
+	[DB3]
 }
 
 database "RDBMS for Teams" {
+	[DB_GDPR_Sensitive_Data]
 }
 
 package "Payments" {
@@ -50,15 +53,19 @@ package "Web Interface" {
 Fullfillments ---|> Infra
 Payments ---|> Infra
 Processes ---|> Infra
+Processes ---|> DB3
 Teams ---|> Infra
+Teams ---|> DB_GDPR_Sensitive_Data
 TimeHarvest ---|> Infra
 
 "Main RailsApplication" ----> TimeCommands : issues
 "Main RailsApplication" ----> TeamCommands : issues
 "Main RailsApplication" ----> MemberCommands : issues
 "Main RailsApplication" ----> OrderCommands : issues
+"Main RailsApplication" ----> DB1
 "Reporting RailsApplication" ..> "Main RailsApplication" :consumes remote events
 "Reporting RailsApplication" ...> CardEvents :consumes
+"Reporting RailsApplication" ---> DB2
 Processes ..up.> CardEvents :consumes
 Processes ..up.> OrderEvents :consumes
 Processes ..up.> TeamEvents :consumes
