@@ -76,6 +76,27 @@ package "Teams" {
 	class "TeamCreated"  <<event>>
 }
 
+package "Exercising" {
+	package "Handstand" {
+		class "HandstandPractice" <<aggregate>>
+		class "StartHandstandPractice"  <<command>>
+		class "RecordHandstandSetupTime"  <<command>>
+		class "RecordHandstandTime"  <<command>>
+		class "RecordPause"  <<command>>
+		class "FinishHandstandPractice"  <<command>>
+
+		class "HandstandPracticeStarted" <<event>>
+		class "HandstandTryStarted" <<event>>
+		class "HandstandSetupSucceeded" <<event>>
+		class "HandstandSetupFailed" <<event>>
+		class "HandstandTimeSucceeded" <<event>>
+		class "HandstandTimeFailed" <<event>>
+		class "HandstandPracticeProgressed" <<event>>
+		class "HandstandPracticeRegressed" <<event>>
+		class "HandstandPracticeFinished" <<event>>
+	}
+}
+
 package "TimeHarvest" {
 	class "ConsumeTime"  <<command>>
 	class "GainTime"  <<command>>

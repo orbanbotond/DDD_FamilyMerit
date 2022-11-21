@@ -74,6 +74,7 @@ module Infra
         match do |*expected_events|
           scope = event_store.read.stream(stream_name)
           actual_events = scope.to_a
+          binding.pry
           to_compare = ->(ev) { { type: ev.event_type, data: ev.data } }
           expected_events.map(&to_compare) == actual_events.map(&to_compare)
         end

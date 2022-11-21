@@ -3,6 +3,11 @@
 package "Infra" {
 }
 
+package "Exercising" {
+  [ExerciseCommands]
+  [ExerciseEvents]
+}
+
 package "Fullfillments" {
   [Order] - OrderCommands
   OrderEvents - [Order]

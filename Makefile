@@ -3,8 +3,11 @@ CONTEXTS = $(shell find merits -type d -maxdepth 1 -mindepth 1 -exec basename {}
 $(addprefix test-, $(CONTEXTS)):
 	@make -C merits/$(subst test-,,$@) test
 
+$(addprefix install-, $(CONTEXTS)):
+	@make -C merits/$(subst test-,,$@) test
+
 install:
-	@echo "intall"
+	$(addprefix install-, $(CONTEXTS))
 
 test: $(addprefix test-, $(CONTEXTS))
 
