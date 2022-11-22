@@ -18,11 +18,6 @@ module Exercising
         @consecutive_successfull_repetitions = 0
       end
 
-      def progress
-        event = Events::HandstandPracticeProgressed.new(data: { user_id: user_id, progression: next_progression, reason: progression_reason })
-        apply event
-      end
-
       def start_practice
         event = Events::HandstandPracticeStarted.new(data: { user_id: user_id })
         apply event
@@ -43,13 +38,12 @@ module Exercising
       def handstand(seconds)
         raise CanHandstandOnlyAfterSetup.new unless state == :setup
 
-        event = if enough_time_spent?(seconds)
-          Events::HandstandSucceeded.new(data: { user_id: user_id, consecutive: increased_consecutive_repetitions, time: seconds, reason: 'Handstand was done for the required time' } )
+        if enough_time_spent?(seconds)
+          apply Events::HandstandSucceeded.new(data: { user_id: user_id, consecutive: increase_consecutive_repetitions, time: seconds, reason: 'Handstand was done for the required time' } )
+          progress if can_progression_be_made?
         else
-          Events::HandstandFailed.new(data: { user_id: user_id, time: seconds, reason: 'Handstand failed for the required time' } )
+          apply Events::HandstandFailed.new(data: { user_id: user_id, time: seconds, reason: 'Handstand failed for the required time' } )
         end
-
-        apply event
       end
 
       def pause
@@ -74,7 +68,6 @@ module Exercising
 
       on Events::HandstandSucceeded do |event|
         @consecutive_successfull_repetitions = event.data[:consecutive]
-        progress if can_progression_be_made?
       end
 
       on Events::HandstandPracticeProgressed do |event|
@@ -84,8 +77,13 @@ module Exercising
   private
       attr_reader :user_id, :state, :consecutive_successfull_repetitions, :progression
 
-      def increased_consecutive_repetitions
-        @consecutive_successfull_repetitions + 1
+      def progress
+        event = Events::HandstandPracticeProgressed.new(data: { user_id: user_id, progression: next_progression, reason: progression_reason })
+        apply event
+      end
+
+      def increase_consecutive_repetitions
+        @consecutive_successfull_repetitions += 1
       end
 
       def enough_time_spent?(seconds)

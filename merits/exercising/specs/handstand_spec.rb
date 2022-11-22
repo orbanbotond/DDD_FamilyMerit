@@ -68,7 +68,6 @@ RSpec.describe 'Handstand' do
       end
 
       context 'when consequtively succeed with the handstand' do
-        subject(:handstand) { consecutive }
         let(:consecutive) { 2 }
 
         let(:handstand_time) { 12 }
@@ -80,7 +79,7 @@ RSpec.describe 'Handstand' do
 
           expect {
             run_command(do_handstand)
-          }.to publish_in_stream(stream, handstand)
+          }.to publish_in_stream(stream, handstand_done)
         end
       end
 
@@ -97,8 +96,7 @@ RSpec.describe 'Handstand' do
 
           expect {
             run_command(do_handstand)
-          # }.to publish_in_stream(stream, handstand_done, handstand_progress)
-          }.to publish_in_stream(stream, handstand_progress, handstand_done)
+          }.to publish_in_stream(stream, handstand_done, handstand_progress)
         end
       end
 
