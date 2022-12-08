@@ -9,7 +9,7 @@ RSpec.describe Fullfillments::Order do
     let(:create) { Fullfillments::Orders::Commands::Create.new(id: id, amount: 1) }
     let(:id) { SecureRandom.uuid }
     let(:deliver) { Fullfillments::Orders::Commands::Deliver.new(id: id, should_fail: false, failure_reason: nil) }
-    let(:dont_deliver) { Fullfillments::Orders::Commands::Deliver.new(id: id, should_fail: true, failure_reason: failure_reson) }
+    let(:dont_deliver) { Fullfillments::Orders::Commands::Deliver.new(id: id, should_fail: true, failure_reason: failure_reason) }
     let(:abort) { Fullfillments::Orders::Commands::Abort.new(id: id, reason: reason) }
 
     describe 'create' do
@@ -40,8 +40,8 @@ RSpec.describe Fullfillments::Order do
       end
 
       context 'when decides to not deliver' do
-        subject(:event) { Fullfillments::Orders::Events::DeliveryFailed.new( data: { id: id, reason: failure_reson } )}
-        let(:failure_reson) { 'Could not deliver' }
+        subject(:event) { Fullfillments::Orders::Events::DeliveryFailed.new( data: { id: id, reason: failure_reason } )}
+        let(:failure_reason) { 'Could not deliver' }
 
         it 'publishes the DeliveryFailed event' do
           run_commands(create)
